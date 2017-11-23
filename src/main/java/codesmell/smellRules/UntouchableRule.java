@@ -6,8 +6,8 @@
 //import com.github.javaparser.ast.expr.MethodCallExpr;
 //import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 //import codesmell.AbstractSmell;
-//import codesmell.SmellyElement;
-//import codesmell.TestMethod;
+//import codesmell.entity.SmellyElement;
+//import codesmell.Method;
 //
 //import java.io.FileNotFoundException;
 //import java.util.ArrayList;
@@ -58,15 +58,15 @@
 //    private class ClassVisitor extends VoidVisitorAdapter<Void> {
 //        private MethodDeclaration currentMethod = null;
 //        private int sensitiveCount = 0;
-//        TestMethod testMethod;
+//        Method testMethod;
 //
 //        // examine all methods in the test class
 //        @Override
 //        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the method name starts with 'test'
+//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
 //            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
 //                currentMethod = n;
-//                testMethod = new TestMethod(n.getNameAsString());
+//                testMethod = new Method(n.getNameAsString());
 //                testMethod.setHasSmell(false); //default value is false (i.e. no smellRules)
 //                super.visit(n, arg);
 //
@@ -75,18 +75,18 @@
 //
 //                smellyElementList.add(testMethod);
 //
-//                //reset values for next method
+//                //reset values for next Method
 //                currentMethod = null;
 //                sensitiveCount = 0;
 //            }
 //        }
 //
-//        // examine the methods being called within the test method
+//        // examine the methods being called within the test Method
 //        @Override
 //        public void visit(MethodCallExpr n, Void arg) {
 //            super.visit(n, arg);
 //            if (currentMethod != null) {
-//                // if the name of a method being called start with 'assert'
+//                // if the name of a Method being called start with 'assert'
 //                if (n.getNameAsString().startsWith(("assert"))) {
 //                    // assert methods that contain toString
 //                    for (Expression argument : n.getArguments()) {
@@ -95,7 +95,7 @@
 //                        }
 //                    }
 //                }
-//                // if the name of a method being called is 'fail'
+//                // if the name of a Method being called is 'fail'
 //                else if (n.getNameAsString().equals("fail")) {
 //                    // fail methods that contain toString
 //                    for (Expression argument : n.getArguments()) {

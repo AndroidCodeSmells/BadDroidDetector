@@ -5,8 +5,8 @@
 //import com.github.javaparser.ast.expr.MethodCallExpr;
 //import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 //import codesmell.AbstractSmell;
-//import codesmell.SmellyElement;
-//import codesmell.TestMethod;
+//import codesmell.entity.SmellyElement;
+//import codesmell.Method;
 //
 //import java.io.FileNotFoundException;
 //import java.util.ArrayList;
@@ -57,20 +57,20 @@
 //        private MethodDeclaration currentMethod = null;
 //        private int assertMessageCount = 0;
 //        private int assertCount = 0;
-//        TestMethod testMethod;
+//        Method testMethod;
 //
 //        // examine all methods in the test class
 //        @Override
 //        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the method name starts with 'test'
+//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
 //            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
 //                currentMethod = n;
-//                testMethod = new TestMethod(n.getNameAsString());
+//                testMethod = new Method(n.getNameAsString());
 //                testMethod.setHasSmell(false); //default value is false (i.e. no smellRules)
 //                super.visit(n, arg);
 //
 //
-//                // if there is only 1 assert statement in the method, then a explanation message is not needed
+//                // if there is only 1 assert statement in the Method, then a explanation message is not needed
 //                if(assertCount==1)
 //                    testMethod.setHasSmell(false);
 //                else if(assertCount >=2 && assertMessageCount >=1) //if there is more than one assert statement, then all the asserts need to have an explanation message
@@ -80,19 +80,19 @@
 //
 //                smellyElementList.add(testMethod);
 //
-//                //reset values for next method
+//                //reset values for next Method
 //                currentMethod = null;
 //                assertCount=0;
 //                assertMessageCount = 0;
 //            }
 //        }
 //
-//        // examine the methods being called within the test method
+//        // examine the methods being called within the test Method
 //        @Override
 //        public void visit(MethodCallExpr n, Void arg) {
 //            super.visit(n, arg);
 //            if (currentMethod != null) {
-//                // if the name of a method being called start with 'assert'
+//                // if the name of a Method being called start with 'assert'
 //                if (n.getNameAsString().startsWith(("assert"))) {
 //                    assertCount++;
 //                    // assert methods that do not contain a message
@@ -100,10 +100,10 @@
 //                        assertMessageCount++;
 //                    }
 //                }
-//                // if the name of a method being called is 'fail'
+//                // if the name of a Method being called is 'fail'
 //                else if (n.getNameAsString().equals("fail")) {
 //                    assertCount++;
-//                    // fail method does not contain a message
+//                    // fail Method does not contain a message
 //                    if (n.getArguments().size() < 1) {
 //                        assertMessageCount++;
 //                    }

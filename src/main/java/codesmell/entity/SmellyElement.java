@@ -1,4 +1,4 @@
-package codesmell;
+package codesmell.entity;
 
 import java.util.Map;
 

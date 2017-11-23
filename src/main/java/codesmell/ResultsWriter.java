@@ -25,7 +25,7 @@ public class ResultsWriter {
     }
 
     /**
-     * Factory method that provides a new instance of the ResultsWriter
+     * Factory Method that provides a new instance of the ResultsWriter
      * @return new ResultsWriter instance
      * @throws IOException
      */

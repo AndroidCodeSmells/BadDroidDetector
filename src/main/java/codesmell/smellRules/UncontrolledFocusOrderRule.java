@@ -10,8 +10,8 @@
 //import java.util.List;
 //
 ///**
-// * This class checks if a test method is empty (i.e. the method does not contain statements in its body)
-// * If the the number of statements in the body is 0, then the method is smelly
+// * This class checks if a test Method is empty (i.e. the Method does not contain statements in its body)
+// * If the the number of statements in the body is 0, then the Method is smelly
 // */
 //public class UncontrolledFocusOrderRule extends AbstractSmell {
 //
@@ -38,7 +38,7 @@
 //    }
 //
 //    /**
-//     * Analyze the test file for test methods that are empty (i.e. no method body)
+//     * Analyze the test file for test methods that are empty (i.e. no Method body)
 //     */
 //    @Override
 //    public void runAnalysis(CompilationUnit testFileCompilationUnit,CompilationUnit productionFileCompilationUnit) throws FileNotFoundException {
@@ -59,23 +59,23 @@
 //     * Visitor class
 //     */
 //    private class ClassVisitor extends VoidVisitorAdapter<Void> {
-//        TestMethod testMethod;
+//        Method testMethod;
 //
 //        /**
-//         * The purpose of this method is to 'visit' all test methods in the test file
+//         * The purpose of this Method is to 'visit' all test methods in the test file
 //         */
 //        @Override
 //        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the method name starts with 'test'
+//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
 //            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
-//                testMethod = new TestMethod(n.getNameAsString());
+//                testMethod = new Method(n.getNameAsString());
 //                testMethod.setHasSmell(false); //default value is false (i.e. no smellRules)
-//                //method should not be abstract
+//                //Method should not be abstract
 //                if (!n.isAbstract()) {
 //                    if (n.getBody().isPresent()) {
-//                        //get the total number of statements contained in the method
+//                        //get the total number of statements contained in the Method
 //                        if (n.getBody().get().getStatements().size() == 0) {
-//                            testMethod.setHasSmell(true); //the method has no statements (i.e no body)
+//                            testMethod.setHasSmell(true); //the Method has no statements (i.e no body)
 //                        }
 //                    }
 //                }

@@ -11,7 +11,7 @@
 //
 //
 ///*
-//This class checks if the code file contains a Constructor. Ideally, the test suite should not have a constructor. Initialization of fields should be in the setUP() method
+//This class checks if the code file contains a Constructor. Ideally, the test suite should not have a constructor. Initialization of fields should be in the setUP() Method
 //If this code detects the existence of a constructor, it sets the class as smelly
 // */
 //public class EarlyResourceBindingRule extends AbstractSmell {
@@ -58,11 +58,11 @@
 //
 //
 //    private class ClassVisitor extends VoidVisitorAdapter<Void> {
-//        TestClass testClass;
+//        Class testClass;
 //
 //        @Override
 //        public void visit(ConstructorDeclaration n, Void arg) {
-//            testClass = new TestClass(n.getNameAsString());
+//            testClass = new Class(n.getNameAsString());
 //            testClass.setHasSmell(true);
 //            smellyElementList.add(testClass);
 //        }

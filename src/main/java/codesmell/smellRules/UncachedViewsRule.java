@@ -6,8 +6,8 @@
 //import com.github.javaparser.ast.expr.NameExpr;
 //import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 //import codesmell.AbstractSmell;
-//import codesmell.SmellyElement;
-//import codesmell.TestMethod;
+//import codesmell.entity.SmellyElement;
+//import codesmell.Method;
 //
 //import java.io.FileNotFoundException;
 //import java.util.ArrayList;
@@ -15,7 +15,7 @@
 //
 ///*
 //Use of Thread.sleep() in test methods can possibly lead to unexpected results as the processing time of tasks on different devices/machines can be different. Use mock objects instead
-//This code marks a method as smelly if the method body calls Thread.sleep()
+//This code marks a Method as smelly if the Method body calls Thread.sleep()
 // */
 //public class UncachedViewsRule extends AbstractSmell {
 //
@@ -62,15 +62,15 @@
 //    private class ClassVisitor extends VoidVisitorAdapter<Void> {
 //        private MethodDeclaration currentMethod = null;
 //        private int sleepCount = 0;
-//        TestMethod testMethod;
+//        Method testMethod;
 //
 //        // examine all methods in the test class
 //        @Override
 //        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the method name starts with 'test'
+//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
 //            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
 //                currentMethod = n;
-//                testMethod = new TestMethod(n.getNameAsString());
+//                testMethod = new Method(n.getNameAsString());
 //                testMethod.setHasSmell(false); //default value is false (i.e. no smellRules)
 //                super.visit(n, arg);
 //
@@ -79,20 +79,20 @@
 //
 //                smellyElementList.add(testMethod);
 //
-//                //reset values for next method
+//                //reset values for next Method
 //                currentMethod = null;
 //                sleepCount = 0;
 //            }
 //        }
 //
-//        // examine the methods being called within the test method
+//        // examine the methods being called within the test Method
 //        @Override
 //        public void visit(MethodCallExpr n, Void arg) {
 //            super.visit(n, arg);
 //            if (currentMethod != null) {
-//                // if the name of a method being called is 'sleep'
+//                // if the name of a Method being called is 'sleep'
 //                if (n.getNameAsString().equals("sleep")) {
-//                    //check the scope of the method
+//                    //check the scope of the Method
 //                    if ((n.getScope().isPresent() && n.getScope().get() instanceof NameExpr)) {
 //                        //proceed only if the scope is "Thread"
 //                        if ((((NameExpr) n.getScope().get()).getNameAsString().equals("Thread"))) {

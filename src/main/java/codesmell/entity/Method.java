@@ -1,16 +1,16 @@
-package codesmell;
+package codesmell.entity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestClass extends SmellyElement {
+public class Method extends SmellyElement {
 
-    private String className;
+    private String methodName;
     private boolean hasSmell;
     private Map<String, String> data;
 
-    public TestClass(String className) {
-        this.className = className;
+    public Method(String methodName) {
+        this.methodName = methodName;
         data = new HashMap<>();
     }
 
@@ -24,7 +24,7 @@ public class TestClass extends SmellyElement {
 
     @Override
     public String getElementName() {
-        return className;
+        return methodName;
     }
 
     @Override

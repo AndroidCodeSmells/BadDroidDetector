@@ -1,11 +1,9 @@
 package codesmell.smellRules;
 
+import codesmell.entity.Method;
+import codesmell.entity.SmellyElement;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import codesmell.*;
 
@@ -40,10 +38,10 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
      * Analyze the test file for test methods that use external resources
      */
     @Override
-    public void runAnalysis(CompilationUnit productionFileCompilationUnit) throws FileNotFoundException {
+    public void runAnalysis(CompilationUnit compilationUnit) throws FileNotFoundException {
         ClassVisitor classVisitor;
         classVisitor = new ClassVisitor();
-        classVisitor.visit(productionFileCompilationUnit, null);
+        classVisitor.visit(compilationUnit, null);
     }
 
     /**
@@ -67,9 +65,9 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
 
             if (n.getNameAsString().equalsIgnoreCase("onClick")) {
 
-                TestMethod  testMethod = new TestMethod("knalid");
-                smellyElementList.add( testMethod);
-                testMethod.setHasSmell(true);
+                Method Method = new Method("knalid");
+                smellyElementList.add(Method);
+                Method.setHasSmell(true);
             }
 
 

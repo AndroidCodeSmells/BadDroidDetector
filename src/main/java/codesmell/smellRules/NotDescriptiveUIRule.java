@@ -53,12 +53,12 @@
 //    }
 //
 //    private class ClassVisitor extends VoidVisitorAdapter<Void> {
-//        TestClass testClass;
+//        Class testClass;
 //
 //        @Override
 //        public void visit(ClassOrInterfaceDeclaration n, Void arg) {
 //            if (n.getNameAsString().equals("ExampleUnitTest") || n.getNameAsString().equals("ExampleInstrumentedTest")) {
-//                testClass = new TestClass(n.getNameAsString());
+//                testClass = new Class(n.getNameAsString());
 //                testClass.setHasSmell(true);
 //                smellyElementList.add(testClass);
 //            }

@@ -7,8 +7,8 @@
 //import com.github.javaparser.ast.expr.NameExpr;
 //import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 //import codesmell.AbstractSmell;
-//import codesmell.SmellyElement;
-//import codesmell.TestMethod;
+//import codesmell.entity.SmellyElement;
+//import codesmell.Method;
 //
 //import java.io.FileNotFoundException;
 //import java.util.ArrayList;
@@ -16,7 +16,7 @@
 //
 ///*
 //Test methods should not contain print statements as execution of unit tests is an automated process with little to no human intervention. Hence, print statements are redundant.
-//This code checks the body of each test method if System.out. print(), println(), printf() and write() methods are called
+//This code checks the body of each test Method if System.out. print(), println(), printf() and write() methods are called
 // */
 //public class UnnecessaryPermissionRule extends AbstractSmell {
 //
@@ -63,15 +63,15 @@
 //    private class ClassVisitor extends VoidVisitorAdapter<Void> {
 //        private MethodDeclaration currentMethod = null;
 //        private int printCount = 0;
-//        TestMethod testMethod;
+//        Method testMethod;
 //
 //        // examine all methods in the test class
 //        @Override
 //        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the method name starts with 'test'
+//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
 //            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
 //                currentMethod = n;
-//                testMethod = new TestMethod(n.getNameAsString());
+//                testMethod = new Method(n.getNameAsString());
 //                testMethod.setHasSmell(false); //default value is false (i.e. no smellRules)
 //                super.visit(n, arg);
 //
@@ -80,20 +80,20 @@
 //
 //                smellyElementList.add(testMethod);
 //
-//                //reset values for next method
+//                //reset values for next Method
 //                currentMethod = null;
 //                printCount = 0;
 //            }
 //        }
 //
-//        // examine the methods being called within the test method
+//        // examine the methods being called within the test Method
 //        @Override
 //        public void visit(MethodCallExpr n, Void arg) {
 //            super.visit(n, arg);
 //            if (currentMethod != null) {
-//                // if the name of a method being called is 'print' or 'println' or 'printf' or 'write'
+//                // if the name of a Method being called is 'print' or 'println' or 'printf' or 'write'
 //                if (n.getNameAsString().equals("print") || n.getNameAsString().equals("println") || n.getNameAsString().equals("printf") || n.getNameAsString().equals("write")) {
-//                    //check the scope of the method & proceed only if the scope is "out"
+//                    //check the scope of the Method & proceed only if the scope is "out"
 //                    if ((n.getScope().isPresent() &&
 //                            n.getScope().get() instanceof FieldAccessExpr &&
 //                            (((FieldAccessExpr) n.getScope().get())).getNameAsString().equals("out"))) {
@@ -104,7 +104,7 @@
 //                        if ((f1.getScope() != null &&
 //                                f1.getScope() instanceof NameExpr &&
 //                                ((NameExpr) f1.getScope()).getNameAsString().equals("System"))) {
-//                            //a print statement exists in the method body
+//                            //a print statement exists in the Method body
 //                            printCount++;
 //                        }
 //                    }

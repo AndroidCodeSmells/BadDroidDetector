@@ -53,12 +53,12 @@
 //    public void runAnalysis(CompilationUnit testFileCompilationUnit,CompilationUnit productionFileCompilationUnit) throws FileNotFoundException {
 //        SetConfigChangesRule.ClassVisitor classVisitor;
 //        classVisitor = new SetConfigChangesRule.ClassVisitor();
-//        classVisitor.visit(testFileCompilationUnit, null); //This call will populate the list of test methods and identify the setup method [visit(ClassOrInterfaceDeclaration n)]
+//        classVisitor.visit(testFileCompilationUnit, null); //This call will populate the list of test methods and identify the setup Method [visit(ClassOrInterfaceDeclaration n)]
 //
-//        //Proceed with general fixture analysis if setup method exists
+//        //Proceed with general fixture analysis if setup Method exists
 //        if (setupMethod != null) {
-//            //Get all fields that are initialized in the setup method
-//            //The following code block will identify the class level variables (i.e. fields) that are initialized in the setup method
+//            //Get all fields that are initialized in the setup Method
+//            //The following code block will identify the class level variables (i.e. fields) that are initialized in the setup Method
 //            // TODO: There has to be a better way to do this identification/check!
 //            Optional<BlockStmt> blockStmt = setupMethod.getBody();
 //            NodeList nodeList = blockStmt.get().getStatements();
@@ -79,9 +79,9 @@
 //            }
 //        }
 //
-//        for (MethodDeclaration method : methodList) {
-//            //This call will visit each test method to identify the list of variables the method contains [visit(MethodDeclaration n)]
-//            classVisitor.visit(method, null);
+//        for (MethodDeclaration Method : methodList) {
+//            //This call will visit each test Method to identify the list of variables the Method contains [visit(MethodDeclaration n)]
+//            classVisitor.visit(Method, null);
 //        }
 //    }
 //
@@ -97,7 +97,7 @@
 //    private class ClassVisitor extends VoidVisitorAdapter<Void> {
 //        private MethodDeclaration methodDeclaration = null;
 //        private MethodDeclaration currentMethod = null;
-//        TestMethod testMethod;
+//        Method testMethod;
 //        private int fixtureCount = 0;
 //
 //        @Override
@@ -112,7 +112,7 @@
 //                        methodList.add(methodDeclaration);
 //                    }
 //
-//                    //Get the setup method
+//                    //Get the setup Method
 //                    if (methodDeclaration.getNameAsString().toLowerCase().equals("setup")) {
 //                        setupMethod = methodDeclaration;
 //                    }
@@ -128,14 +128,14 @@
 //        // examine all methods in the test class
 //        @Override
 //        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the method name starts with 'test'
+//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
 //            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
 //                currentMethod = n;
 //
-//                //call visit(NameExpr) for current method
+//                //call visit(NameExpr) for current Method
 //                super.visit(n, arg);
 //
-//                testMethod = new TestMethod(n.getNameAsString());
+//                testMethod = new Method(n.getNameAsString());
 //                testMethod.setHasSmell(fixtureCount != setupFields.size());
 //                smellyElementList.add(testMethod);
 //
@@ -147,7 +147,7 @@
 //        @Override
 //        public void visit(NameExpr n, Void arg) {
 //            if (currentMethod != null) {
-//                //check if the variable contained in the current test method is also contained in the setup method
+//                //check if the variable contained in the current test Method is also contained in the setup Method
 //                if (setupFields.contains(n.getNameAsString())) {
 //                    fixtureCount++;
 //                    //System.out.println(currentMethod.getNameAsString() + " : " + n.getName().toString());

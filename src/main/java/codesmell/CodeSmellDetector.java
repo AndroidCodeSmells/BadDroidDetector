@@ -1,5 +1,6 @@
 package codesmell;
 
+import codesmell.entity.File;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import org.apache.commons.lang3.StringUtils;
@@ -12,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TestSmellDetector {
+public class CodeSmellDetector {
 
     private List<AbstractSmell> testSmells;
 
     /**
      * Instantiates the various test smellRules analyzer classes and loads the objects into an List
      */
-    public TestSmellDetector() {
+    public CodeSmellDetector() {
         initializeSmells();
     }
 
@@ -41,12 +42,12 @@ public class TestSmellDetector {
     }
 
     /**
-     * Factory method that provides a new instance of the TestSmellDetector
+     * Factory Method that provides a new instance of the CodeSmellDetector
      *
-     * @return new TestSmellDetector instance
+     * @return new CodeSmellDetector instance
      */
-    public static TestSmellDetector createTestSmellDetector() {
-        return new TestSmellDetector();
+    public static CodeSmellDetector createTestSmellDetector() {
+        return new CodeSmellDetector();
     }
 
     /**
@@ -59,33 +60,33 @@ public class TestSmellDetector {
     }
 
     /**
-     * Loads the java source code file into an AST and then analyzes it for the existence of the different types of test smells
+     * Loads the java source code file into an AST and then analyzes it for the existence of the different types of android code smells smells
      */
-    public TestFile detectSmells(TestFile testFile) throws IOException {
-        CompilationUnit productionFileCompilationUnit=null;
-        FileInputStream testFileInputStream, productionFileInputStream;
+    public File detectSmells(File file) throws IOException {
+        CompilationUnit compilationUnit=null;
+        FileInputStream  fileInputStream;
 
-
-
-        if(!StringUtils.isEmpty(testFile.getProductionFilePath())){
-            productionFileInputStream = new FileInputStream(testFile.getProductionFilePath());
-            productionFileCompilationUnit = JavaParser.parse(productionFileInputStream);
-        }
-
-        initializeSmells();
-        for (AbstractSmell smell : testSmells) {
-            try {
-                smell.runAnalysis(productionFileCompilationUnit);
-            } catch (FileNotFoundException e) {
-                testFile.addSmell(null);
-                continue;
+        if(file.getFileType()== File.FileType.JAVA) {
+            if (!StringUtils.isEmpty(file.getFilePath())) {
+                fileInputStream = new FileInputStream(file.getFilePath());
+                compilationUnit = JavaParser.parse(fileInputStream);
             }
-            testFile.addSmell(smell);
+
+            initializeSmells();
+            for (AbstractSmell smell : testSmells) {
+                try {
+                    smell.runAnalysis(compilationUnit);
+                } catch (FileNotFoundException e) {
+                    file.addSmell(null);
+                    continue;
+                }
+                file.addSmell(smell);
+            }
+        }
+        else{
+
         }
 
-        return testFile;
-
+        return file;
     }
-
-
 }

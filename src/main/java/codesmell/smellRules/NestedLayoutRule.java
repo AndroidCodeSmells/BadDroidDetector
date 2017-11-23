@@ -1,8 +1,8 @@
 //package codesmell.smellRules;
 //
 //import codesmell.AbstractSmell;
-//import codesmell.SmellyElement;
-//import codesmell.TestMethod;
+//import codesmell.entity.SmellyElement;
+//import codesmell.Method;
 //import com.github.javaparser.ast.CompilationUnit;
 //import com.github.javaparser.ast.body.MethodDeclaration;
 //import com.github.javaparser.ast.stmt.CatchClause;
@@ -15,7 +15,7 @@
 //
 ///*
 //This class checks if test methods in the class either catch or throw exceptions. Use Junit's exception handling to automatically pass/fail the test
-//If this code detects the existence of a catch block or a throw statement in the methods body, the method is marked as smelly
+//If this code detects the existence of a catch block or a throw statement in the methods body, the Method is marked as smelly
 // */
 //public class NestedLayoutRule extends AbstractSmell {
 //
@@ -62,16 +62,16 @@
 //    private class ClassVisitor extends VoidVisitorAdapter<Void> {
 //        private MethodDeclaration currentMethod = null;
 //        private int exceptionCount = 0;
-//        TestMethod testMethod;
+//        Method testMethod;
 //
 //
 //        // examine all methods in the test class
 //        @Override
 //        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the method name starts with 'test'
+//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
 //            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
 //                currentMethod = n;
-//                testMethod = new TestMethod(n.getNameAsString());
+//                testMethod = new Method(n.getNameAsString());
 //                testMethod.setHasSmell(false); //default value is false (i.e. no smellRules)
 //                super.visit(n, arg);
 //
@@ -80,7 +80,7 @@
 //
 //                smellyElementList.add(testMethod);
 //
-//                //reset values for next method
+//                //reset values for next Method
 //                currentMethod = null;
 //                exceptionCount = 0;
 //            }
