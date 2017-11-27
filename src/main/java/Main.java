@@ -15,10 +15,11 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws IOException, DocumentException {
 
-         XmlParser.ElementCollection i = XmlParser.FindAttribute("C:\\Projects\\milk\\Apps\\accessible\\DemoApp03\\app\\src\\main\\res\\layout\\activity_main.xml","contentDescription");
-        int ir=0;
+//XML Parser
+//XmlParser.ElementCollection i = XmlParser.FindAttribute("C:\\Projects\\milk\\Apps\\accessible\\DemoApp03\\app\\src\\main\\res\\layout\\activity_main.xml", "contentDescription");
 
-       CodeSmellDetector codeSmellDetector = CodeSmellDetector.createTestSmellDetector();
+
+        CodeSmellDetector codeSmellDetector = CodeSmellDetector.createTestSmellDetector();
 
         /*
           Read the the folder list subfolder and build the File objects
@@ -35,10 +36,9 @@ public class Main {
             lineItem = str.split(",");
 
             //check if the test file has an associated production file
-            if(lineItem.length ==2){
+            if (lineItem.length == 2) {
                 testFile = new File(lineItem[0], lineItem[1]);
-            }
-            else{
+            } else {
                 testFile = new File(lineItem[0], lineItem[1]);
             }
 
@@ -63,7 +63,7 @@ public class Main {
         */
         File tempFile;
         for (File file : files) {
-            System.out.println("Processing: "+file.getFilePath());
+            System.out.println("Processing: " + file.getFilePath());
 
             //detect smells
             tempFile = codeSmellDetector.detectSmells(file);
@@ -75,8 +75,7 @@ public class Main {
             for (AbstractSmell smell : tempFile.getCodeSmells()) {
                 try {
                     columnValues.add(String.valueOf(smell.getHasSmell()));
-                }
-                catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     columnValues.add("");
                 }
             }
