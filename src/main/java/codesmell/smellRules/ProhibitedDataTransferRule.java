@@ -6,6 +6,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import codesmell.*;
+import org.dom4j.DocumentException;
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -38,11 +39,12 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
      * Analyze the test file for test methods that use external resources
      */
     @Override
-    public void runAnalysis(CompilationUnit compilationUnit) throws FileNotFoundException {
-        ClassVisitor classVisitor;
-        classVisitor = new ClassVisitor();
-        classVisitor.visit(compilationUnit, null);
+    public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
+
     }
+
+
+
 
     /**
      * Returns the set of analyzed elements (i.e. test methods)
@@ -51,30 +53,5 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
     public List<SmellyElement> getSmellyElements() {
         return smellyElementList;
     }
-    private MethodDeclaration currentMethod = null;
 
-    private class ClassVisitor extends VoidVisitorAdapter<Void> {
-
-
-
-
-
-        // examine all methods in the test class
-        @Override
-        public void visit(MethodDeclaration n, Void arg) {
-
-            if (n.getNameAsString().equalsIgnoreCase("onClick")) {
-
-                Method Method = new Method("knalid");
-                smellyElementList.add(Method);
-                Method.setHasSmell(true);
-            }
-
-
-
-
-        }
-
-
-    }
 }

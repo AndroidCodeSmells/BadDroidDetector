@@ -6,7 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class File {
-    private String app, filePath;
+    private String app;
+    private String filePath;
+
+    public String getXmlFilePath() {
+        return xmlFilePath;
+    }
+
+    public void setXmlFilePath(String xmlFilePath) {
+        this.xmlFilePath = xmlFilePath;
+    }
+
+    private String xmlFilePath;
     private List<AbstractSmell> codeSmells;
 
     public String getApp() {
@@ -21,10 +32,11 @@ public class File {
         return filePath;//((filePath != null && !filePath.isEmpty()));
     }
 
-    public File(String app, String filePath) {
+    public File(String app, String filePath, String xmlFilePath ) {
         this.app = app;
         this.filePath = filePath;
         this.codeSmells = new ArrayList<>();
+        this.xmlFilePath = xmlFilePath;
     }
 
     public FileType getFileType(){

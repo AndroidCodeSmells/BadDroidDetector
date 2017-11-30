@@ -1,112 +1,67 @@
-//package codesmell.smellRules;
-//
-//import com.github.javaparser.ast.CompilationUnit;
-//import com.github.javaparser.ast.body.MethodDeclaration;
-//import com.github.javaparser.ast.expr.Expression;
-//import com.github.javaparser.ast.expr.MethodCallExpr;
-//import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-//import codesmell.AbstractSmell;
-//import codesmell.entity.SmellyElement;
-//import codesmell.Method;
-//
-//import java.io.FileNotFoundException;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//public class UntouchableRule extends AbstractSmell {
-//
-//    private List<SmellyElement> smellyElementList;
-//
-//    public UntouchableRule() {
-//        smellyElementList = new ArrayList<>();
-//    }
-//
-//    /**
-//     * Checks of 'Sensitive Equality' smellRules
-//     */
-//    @Override
-//    public String getSmellName() {
-//        return "Sensitive Equality";
-//    }
-//
-//    /**
-//     * Returns true if any of the elements has a smellRules
-//     */
-//    @Override
-//    public boolean getHasSmell() {
-//        return smellyElementList.stream().filter(x -> x.getHasSmell()).count() >= 1;
-//    }
-//
-//    /**
-//     * Analyze the test file for test methods the 'Sensitive Equality' smellRules
-//     */
-//    @Override
-//    public void runAnalysis(CompilationUnit productionFileCompilationUnit) throws FileNotFoundException {
-//        UntouchableRule.ClassVisitor classVisitor;
-//        classVisitor = new ClassVisitor();
-//        classVisitor.visit(productionFileCompilationUnit, null);
-//    }
-//
-//    /**
-//     * Returns the set of analyzed elements (i.e. test methods)
-//     */
-//    @Override
-//    public List<SmellyElement> getSmellyElements() {
-//        return smellyElementList;
-//    }
-//
-//    private class ClassVisitor extends VoidVisitorAdapter<Void> {
-//        private MethodDeclaration currentMethod = null;
-//        private int sensitiveCount = 0;
-//        Method testMethod;
-//
-//        // examine all methods in the test class
-//        @Override
-//        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
-//            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
-//                currentMethod = n;
-//                testMethod = new Method(n.getNameAsString());
-//                testMethod.setHasSmell(false); //default value is false (i.e. no smellRules)
-//                super.visit(n, arg);
-//
-//                testMethod.setHasSmell(sensitiveCount >= 1);
-//                testMethod.addDataItem("SensitiveCount", String.valueOf(sensitiveCount));
-//
-//                smellyElementList.add(testMethod);
-//
-//                //reset values for next Method
-//                currentMethod = null;
-//                sensitiveCount = 0;
-//            }
-//        }
-//
-//        // examine the methods being called within the test Method
-//        @Override
-//        public void visit(MethodCallExpr n, Void arg) {
-//            super.visit(n, arg);
-//            if (currentMethod != null) {
-//                // if the name of a Method being called start with 'assert'
-//                if (n.getNameAsString().startsWith(("assert"))) {
-//                    // assert methods that contain toString
-//                    for (Expression argument : n.getArguments()) {
-//                        if (argument.toString().contains("toString")) {
-//                            sensitiveCount++;
-//                        }
-//                    }
-//                }
-//                // if the name of a Method being called is 'fail'
-//                else if (n.getNameAsString().equals("fail")) {
-//                    // fail methods that contain toString
-//                    for (Expression argument : n.getArguments()) {
-//                        if (argument.toString().contains("toString")) {
-//                            sensitiveCount++;
-//                        }
-//                    }
-//                }
-//
-//            }
-//        }
-//
-//    }
-//}
+package codesmell.smellRules;
+
+import codesmell.AbstractSmell;
+import codesmell.XmlParser;
+import codesmell.entity.Method;
+import codesmell.entity.SmellyElement;
+import com.github.javaparser.ast.CompilationUnit;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+
+import java.io.FileNotFoundException;
+import java.rmi.UnexpectedException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UntouchableRule extends AbstractSmell{
+    private List<SmellyElement> smellyElementList;
+
+    public UntouchableRule() {
+        smellyElementList = new ArrayList<>();
+    }
+
+    @Override
+    public String getSmellName() {
+        return "UntouchableRule";
+    }
+
+    @Override
+    public boolean getHasSmell() {
+        return smellyElementList.stream().filter(x -> x.getHasSmell()).count() >= 1;
+    }
+
+    @Override
+    public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
+
+       XmlParser.ElementCollection layout_widthAttribute = xmlParser.FindAttribute("layout_width");
+
+       for (Element element : layout_widthAttribute.getElementsWithAttribute()){
+
+           String attributeValue =   element.attributeValue("layout_width").toString();
+
+
+           if (attributeValue.indexOf("dp") !=-1){
+               attributeValue = attributeValue.replace("dp","");
+               float number = Float.valueOf(attributeValue);
+
+               if (number <= 48){
+                   Method xmlelement = new Method(element.getName());
+                   xmlelement.setHasSmell(true);
+                   smellyElementList.add(xmlelement);
+               }
+
+           }
+
+
+
+
+
+       }
+
+    }
+
+    @Override
+    public List<SmellyElement> getSmellyElements() {
+        return smellyElementList;
+    }
+}

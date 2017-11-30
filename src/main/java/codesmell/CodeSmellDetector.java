@@ -5,6 +5,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import org.apache.commons.lang3.StringUtils;
 import codesmell.smellRules.*;
+import org.dom4j.DocumentException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,7 +36,8 @@ public class CodeSmellDetector {
 //        testSmells.add(new SetConfigChangesRule());
         testSmells.add(new ProhibitedDataTransferRule());
 //        testSmells.add(new UnnecessaryPermissionRule());
-//        testSmells.add(new UntouchableRule());
+
+        testSmells.add(new UntouchableRule());
 //        testSmells.add(new TrackingHardwareIdRule());
 //        testSmells.add(new UncachedViewsRule());
 //        testSmells.add(new OverdrawnPixelRule());
@@ -62,8 +64,10 @@ public class CodeSmellDetector {
     /**
      * Loads the java source code file into an AST and then analyzes it for the existence of the different types of android code smells smells
      */
-    public File detectSmells(File file) throws IOException {
+    public File detectSmells(File file) throws IOException, DocumentException {
         CompilationUnit compilationUnit=null;
+        XmlParser xmlParser=null;
+
         FileInputStream  fileInputStream;
 
         if(file.getFileType()== File.FileType.JAVA) {
@@ -71,11 +75,15 @@ public class CodeSmellDetector {
                 fileInputStream = new FileInputStream(file.getFilePath());
                 compilationUnit = JavaParser.parse(fileInputStream);
             }
+            if (!StringUtils.isEmpty(file.getXmlFilePath())) {
+                xmlParser = new XmlParser(file.getXmlFilePath());
+            }
+
 
             initializeSmells();
             for (AbstractSmell smell : testSmells) {
                 try {
-                    smell.runAnalysis(compilationUnit);
+                    smell.runAnalysis(compilationUnit,xmlParser);
                 } catch (FileNotFoundException e) {
                     file.addSmell(null);
                     continue;

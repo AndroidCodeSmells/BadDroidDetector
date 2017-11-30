@@ -25,7 +25,7 @@ public class Main {
           Read the the folder list subfolder and build the File objects
          */
 
-        BufferedReader in = new BufferedReader(new FileReader("/Users/khalidsalmalki/Desktop/cidesmell.csv"));
+        BufferedReader in = new BufferedReader(new FileReader("\\\\Mac\\Home\\Desktop\\untitled folder\\sample.csv"));
         String str;
 
         String[] lineItem;
@@ -36,12 +36,11 @@ public class Main {
             lineItem = str.split(",");
 
             //check if the test file has an associated production file
-            if (lineItem.length == 2) {
-                testFile = new File(lineItem[0], lineItem[1]);
+            if (lineItem.length == 3) {
+                testFile = new File(lineItem[0], lineItem[1],lineItem[2]);
             } else {
-                testFile = new File(lineItem[0], lineItem[1]);
+                testFile = new File(lineItem[0], lineItem[1],lineItem[2]);
             }
-
             files.add(testFile);
         }
 
@@ -56,6 +55,8 @@ public class Main {
         columnNames = codeSmellDetector.getTestSmellNames();
         columnNames.add(0, "App");
         columnNames.add(1, "FilePath");
+        columnNames.add(2, "XmlFilePath");
+
         resultsWriter.writeColumnName(columnNames);
 
         /*
@@ -63,7 +64,7 @@ public class Main {
         */
         File tempFile;
         for (File file : files) {
-            System.out.println("Processing: " + file.getFilePath());
+           System.out.println("Processing: " + file.getFilePath());
 
             //detect smells
             tempFile = codeSmellDetector.detectSmells(file);
@@ -72,6 +73,8 @@ public class Main {
             columnValues = new ArrayList<>();
             columnValues.add(file.getApp());
             columnValues.add(file.getFilePath());
+            columnValues.add(file.getXmlFilePath());
+
             for (AbstractSmell smell : tempFile.getCodeSmells()) {
                 try {
                     columnValues.add(String.valueOf(smell.getHasSmell()));
