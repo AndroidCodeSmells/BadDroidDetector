@@ -64,7 +64,7 @@ public class Main {
         */
         File tempFile;
         for (File file : files) {
-           System.out.println("Processing: " + file.getFilePath());
+           System.out.println("Processing: " + file.getXmlFilePath());
 
             //detect smells
             tempFile = codeSmellDetector.detectSmells(file);

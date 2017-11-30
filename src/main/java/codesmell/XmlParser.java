@@ -51,7 +51,21 @@ public class XmlParser {
 
         return new ElementCollection(elementsWithAttribute,elementsWithoutAttribute);
     }
+    public ElementsCollection FindAttribute() throws DocumentException {
+        List<Element> elementsWithAttribute = new ArrayList<>();
 
+
+        for (Node element: elements) {
+            for(Attribute attribute: ((DefaultElement) element).attributes()){
+                elementsWithAttribute.add((DefaultElement) element);
+
+            }
+
+
+        }
+
+        return new ElementsCollection(elementsWithAttribute);
+    }
     public  ElementCollection FindNode(String Name) throws DocumentException {
         List<Element> elementsWithAttribute = new ArrayList<>();
         List<Element> elementsWithoutAttribute = new ArrayList<>();
@@ -86,7 +100,19 @@ public class XmlParser {
 
         return new ElementCollection(elementsWithAttribute,elementsWithoutAttribute);
     }
+    public static class ElementsCollection {
+        public  ElementsCollection(List<Element> elementsWithAttribute){
+            this.elementsWithAttribute = elementsWithAttribute;
 
+        }
+        List<Element> elementsWithAttribute = new ArrayList<>();
+
+
+        public List<Element> getElementsWithAttribute(){
+            return elementsWithAttribute;
+        }
+
+    }
     public static class ElementCollection{
         List<Element> elementsWithAttribute = new ArrayList<>();
         List<Element> elementsWithoutAttribute = new ArrayList<>();

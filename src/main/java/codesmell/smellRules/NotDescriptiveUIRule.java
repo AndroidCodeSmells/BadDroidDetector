@@ -1,68 +1,63 @@
-//package codesmell.smellRules;
-//
-//import com.github.javaparser.ast.CompilationUnit;
-//import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-//import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-//import codesmell.*;
-//
-//import java.io.FileNotFoundException;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-///*
-//By default Android Studio creates default test classes when a project is created. These classes are meant to serve as an example for developers when wring unit tests
-//This code marks the class as smelly if the class name corresponds to the name of the default test classes
-// */
-//public class NotDescriptiveUIRule extends AbstractSmell {
-//
-//    private List<SmellyElement> smellyElementList;
-//
-//    public NotDescriptiveUIRule() {
-//        smellyElementList = new ArrayList<>();
-//    }
-//
-//    /**
-//     * Checks of 'Default Test' smellRules
-//     */
-//    @Override
-//    public String getSmellName() {
-//        return "Default Test";
-//    }
-//
-//    /**
-//     * Returns true if any of the elements has a smellRules
-//     */
-//    @Override
-//    public boolean getHasSmell() {
-//        return smellyElementList.stream().filter(x -> x.getHasSmell()).count() >= 1;
-//    }
-//
-//    @Override
-//    public void runAnalysis(CompilationUnit testFileCompilationUnit,CompilationUnit productionFileCompilationUnit) throws FileNotFoundException {
-//        NotDescriptiveUIRule.ClassVisitor classVisitor;
-//        classVisitor = new NotDescriptiveUIRule.ClassVisitor();
-//        classVisitor.visit(testFileCompilationUnit, null);
-//    }
-//
-//    /**
-//     * Returns the set of analyzed elements (i.e. test methods)
-//     */
-//    @Override
-//    public List<SmellyElement> getSmellyElements() {
-//        return smellyElementList;
-//    }
-//
-//    private class ClassVisitor extends VoidVisitorAdapter<Void> {
-//        Class testClass;
-//
-//        @Override
-//        public void visit(ClassOrInterfaceDeclaration n, Void arg) {
-//            if (n.getNameAsString().equals("ExampleUnitTest") || n.getNameAsString().equals("ExampleInstrumentedTest")) {
-//                testClass = new Class(n.getNameAsString());
-//                testClass.setHasSmell(true);
-//                smellyElementList.add(testClass);
-//            }
-//            super.visit(n, arg);
-//        }
-//    }
-//}
+package codesmell.smellRules;
+
+import codesmell.AbstractSmell;
+import codesmell.XmlParser;
+import codesmell.entity.Method;
+import codesmell.entity.SmellyElement;
+import com.github.javaparser.ast.CompilationUnit;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.Node;
+
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.rmi.UnexpectedException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class NotDescriptiveUIRule extends AbstractSmell{
+    private List<SmellyElement> smellyElementList;
+
+    public NotDescriptiveUIRule() {
+        smellyElementList = new ArrayList<>();
+    }
+
+    @Override
+    public String getSmellName() {
+        return "NotDescriptiveUIRule";
+    }
+
+    @Override
+    public boolean getHasSmell() {
+        return smellyElementList.stream().filter(x -> x.getHasSmell()).count() >= 1;
+    }
+
+    @Override
+    public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
+
+        XmlParser.ElementsCollection  notDescriptive = xmlParser.FindAttribute();
+
+        for (Element element :notDescriptive.getElementsWithAttribute()) {
+
+                if (element.attributeValue("contentDescription")==null){
+
+                    Method xmlelement = new Method(element.getName());
+                    xmlelement.setHasSmell(true);
+                    smellyElementList.add(xmlelement);
+                }
+
+        }
+
+
+
+
+
+
+
+    }
+
+    @Override
+    public List<SmellyElement> getSmellyElements() {
+        return smellyElementList;
+    }
+}
