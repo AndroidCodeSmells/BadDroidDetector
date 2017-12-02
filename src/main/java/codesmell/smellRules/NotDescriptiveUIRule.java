@@ -24,7 +24,7 @@ public class NotDescriptiveUIRule extends AbstractSmell{
 
     @Override
     public String getSmellName() {
-        return "NotDescriptiveUIRule";
+        return "UncontrolledFocusOrderRule";
     }
 
     @Override

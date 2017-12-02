@@ -30,8 +30,8 @@ public class CodeSmellDetector {
 //        testSmells.add(new BulkDataTransferOnSlowNetworkRule());
 //        testSmells.add(new DroppedDataRule());
 //        testSmells.add(new EarlyResourceBindingRule());
-          testSmells.add(new NotDescriptiveUIRule());
-//        testSmells.add(new UncontrolledFocusOrderRule());
+          testSmells.add(new UncontrolledFocusOrderRule());
+          testSmells.add(new UncontrolledFocusOrderRule());
 //        testSmells.add(new InterruptingFromBackgroundRule());
 //        testSmells.add(new SetConfigChangesRule());
         //testSmells.add(new ProhibitedDataTransferRule());

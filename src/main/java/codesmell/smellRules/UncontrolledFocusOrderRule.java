@@ -1,86 +1,83 @@
-//package codesmell.smellRules;
-//
-//import com.github.javaparser.ast.CompilationUnit;
-//import com.github.javaparser.ast.body.MethodDeclaration;
-//import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-//import codesmell.*;
-//
-//import java.io.FileNotFoundException;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-///**
-// * This class checks if a test Method is empty (i.e. the Method does not contain statements in its body)
-// * If the the number of statements in the body is 0, then the Method is smelly
-// */
-//public class UncontrolledFocusOrderRule extends AbstractSmell {
-//
-//    private List<SmellyElement> smellyElementList;
-//
-//    public UncontrolledFocusOrderRule() {
-//        smellyElementList = new ArrayList<>();
-//    }
-//
-//    /**
-//     * Checks of 'Empty Test' smellRules
-//     */
-//    @Override
-//    public String getSmellName() {
-//        return "UncontrolledFocusOrderRule";
-//    }
-//
-//    /**
-//     * Returns true if any of the elements has a smellRules
-//     */
-//    @Override
-//    public boolean getHasSmell() {
-//        return smellyElementList.stream().filter(x -> x.getHasSmell()).count() >= 1;
-//    }
-//
-//    /**
-//     * Analyze the test file for test methods that are empty (i.e. no Method body)
-//     */
-//    @Override
-//    public void runAnalysis(CompilationUnit testFileCompilationUnit,CompilationUnit productionFileCompilationUnit) throws FileNotFoundException {
-//        UncontrolledFocusOrderRule.ClassVisitor classVisitor;
-//        classVisitor = new UncontrolledFocusOrderRule.ClassVisitor();
-//        classVisitor.visit(testFileCompilationUnit, null);
-//    }
-//
-//    /**
-//     * Returns the set of analyzed elements (i.e. test methods)
-//     */
-//    @Override
-//    public List<SmellyElement> getSmellyElements() {
-//        return smellyElementList;
-//    }
-//
-//    /**
-//     * Visitor class
-//     */
-//    private class ClassVisitor extends VoidVisitorAdapter<Void> {
-//        Method testMethod;
-//
-//        /**
-//         * The purpose of this Method is to 'visit' all test methods in the test file
-//         */
-//        @Override
-//        public void visit(MethodDeclaration n, Void arg) {
-//            //only analyze methods that either have a @test annotation (Junit 4) or the Method name starts with 'test'
-//            if (n.getAnnotationByName("Test").isPresent() || n.getNameAsString().toLowerCase().startsWith("test")) {
-//                testMethod = new Method(n.getNameAsString());
-//                testMethod.setHasSmell(false); //default value is false (i.e. no smellRules)
-//                //Method should not be abstract
-//                if (!n.isAbstract()) {
-//                    if (n.getBody().isPresent()) {
-//                        //get the total number of statements contained in the Method
-//                        if (n.getBody().get().getStatements().size() == 0) {
-//                            testMethod.setHasSmell(true); //the Method has no statements (i.e no body)
-//                        }
-//                    }
-//                }
-//                smellyElementList.add(testMethod);
-//            }
-//        }
-//    }
-//}
+package codesmell.smellRules;
+
+import codesmell.AbstractSmell;
+import codesmell.XmlParser;
+import codesmell.entity.Method;
+import codesmell.entity.SmellyElement;
+import com.github.javaparser.ast.CompilationUnit;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+
+import java.io.FileNotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class UncontrolledFocusOrderRule extends AbstractSmell{
+    private List<SmellyElement> smellyElementList;
+
+    public UncontrolledFocusOrderRule() {
+        smellyElementList = new ArrayList<>();
+    }
+
+    @Override
+    public String getSmellName() {
+        return "UncontrolledFocusOrderRule";
+    }
+
+    @Override
+    public boolean getHasSmell() {
+        return smellyElementList.stream().filter(x -> x.getHasSmell()).count() >= 1;
+    }
+
+    @Override
+    public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
+
+        XmlParser.ElementsCollection  notDescriptive = xmlParser.FindAttribute();
+
+        for (Element element :notDescriptive.getElementsWithAttribute()) {
+            int counter = 0;
+            if (element.attributeValue("nextFocusUp")==null){
+                counter ++;
+            }
+            if (element.attributeValue("nextFocusDown")==null){
+                counter ++;
+
+            }
+            if (element.attributeValue("nextFocusLeft")==null){
+
+                counter ++;
+
+            }
+            if (element.attributeValue("nextFocusRight")==null){
+                counter ++;
+
+            }
+            if (element.attributeValue("nextFocusForward")==null){
+                counter ++;
+
+            }
+
+            if (counter==5){
+                System.out.println(counter);
+                Method xmlelement = new Method(element.getName());
+               xmlelement.setHasSmell(true);
+                smellyElementList.add(xmlelement);
+            }
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+    @Override
+    public List<SmellyElement> getSmellyElements() {
+        return smellyElementList;
+    }
+}
