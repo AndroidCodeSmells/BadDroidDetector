@@ -38,7 +38,7 @@ public class CodeSmellDetector {
 //        testSmells.add(new UnnecessaryPermissionRule());
 
           testSmells.add(new UntouchableRule());
-//        testSmells.add(new TrackingHardwareIdRule());
+          testSmells.add(new TrackingHardwareIdRule());
 //        testSmells.add(new UncachedViewsRule());
 //        testSmells.add(new OverdrawnPixelRule());
     }

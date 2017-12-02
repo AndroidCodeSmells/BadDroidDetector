@@ -1,7 +1,6 @@
 import codesmell.AbstractSmell;
 import codesmell.CodeSmellDetector;
 import codesmell.ResultsWriter;
-import codesmell.XmlParser;
 import codesmell.entity.File;
 import org.dom4j.DocumentException;
 
@@ -26,6 +25,8 @@ public class Main {
          */
 
         BufferedReader in = new BufferedReader(new FileReader("\\\\Mac\\Home\\Desktop\\untitled folder\\sample.csv"));
+        //BufferedReader in = new BufferedReader(new FileReader("/Users/khalidsalmalki/Desktop/untitled folder/sample.csv"));
+
         String str;
 
         String[] lineItem;
@@ -65,6 +66,7 @@ public class Main {
         File tempFile;
         for (File file : files) {
            System.out.println("Processing: " + file.getXmlFilePath());
+           System.out.println("Processing: " + file.getFilePath());
 
             //detect smells
             tempFile = codeSmellDetector.detectSmells(file);

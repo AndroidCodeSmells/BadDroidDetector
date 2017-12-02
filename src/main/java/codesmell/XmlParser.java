@@ -56,10 +56,9 @@ public class XmlParser {
 
 
         for (Node element: elements) {
-            for(Attribute attribute: ((DefaultElement) element).attributes()){
-                elementsWithAttribute.add((DefaultElement) element);
 
-            }
+            elementsWithAttribute.add((DefaultElement) element);
+
 
 
         }
