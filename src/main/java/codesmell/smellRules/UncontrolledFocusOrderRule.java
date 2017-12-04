@@ -59,7 +59,6 @@ public class UncontrolledFocusOrderRule extends AbstractSmell{
             }
 
             if (counter==5){
-                System.out.println(counter);
                 Method xmlelement = new Method(element.getName());
                xmlelement.setHasSmell(true);
                 smellyElementList.add(xmlelement);

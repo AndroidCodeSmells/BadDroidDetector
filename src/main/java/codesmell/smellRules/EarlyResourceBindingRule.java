@@ -1,70 +1,104 @@
-//package codesmell.smellRules;
+package codesmell.smellRules;
+
+import codesmell.AbstractSmell;
+import codesmell.XmlParser;
+import codesmell.entity.Method;
+import codesmell.entity.MethodChild;
+import codesmell.entity.SmellyElement;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import org.dom4j.DocumentException;
+
+
+import java.io.FileNotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EarlyResourceBindingRule extends AbstractSmell{
+    private List<SmellyElement> smellyElementList;
+    private  String  currentMethod, foundSmellMethod ;
+    private List<MethodChild> methodChildList ;
+    public EarlyResourceBindingRule() {
+        smellyElementList = new ArrayList<>();
+        methodChildList = new ArrayList<>();
+
+    }
+
+    @Override
+    public String getSmellName() {
+        return "EarlyResourceBindingRule";
+    }
+
+    @Override
+    public boolean getHasSmell() {
+        return smellyElementList.stream().filter(x -> x.getHasSmell()).count() >= 1;
+    }
+
+    @Override
+    public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
+
+        EarlyResourceBindingRule.ClassVisitor classVisitor;
+        classVisitor = new EarlyResourceBindingRule.ClassVisitor();
+        classVisitor.visit(compilationUnit, null);
+
+            if (foundSmellMethod!=null){
+                for (MethodChild m : methodChildList) {
+
+                    if (m.has(foundSmellMethod)){
+                        Method smell = new Method(foundSmellMethod);
+                        smell.setHasSmell(true);
+                        smellyElementList.add(smell);
+                    }
+                }
+
+//            if (n.getNameAsString().equalsIgnoreCase("onCreate")){
 //
-//import com.github.javaparser.ast.CompilationUnit;
-//import com.github.javaparser.ast.body.ConstructorDeclaration;
-//import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-//import codesmell.*;
-//
-//import java.io.FileNotFoundException;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//
-///*
-//This class checks if the code file contains a Constructor. Ideally, the test suite should not have a constructor. Initialization of fields should be in the setUP() Method
-//If this code detects the existence of a constructor, it sets the class as smelly
-// */
-//public class EarlyResourceBindingRule extends AbstractSmell {
-//
-//    private List<SmellyElement> smellyElementList;
-//
-//    public EarlyResourceBindingRule() {
-//        smellyElementList = new ArrayList<>();
-//    }
-//
-//    /**
-//     * Checks of 'Constructor Initialization' smellRules
-//     */
-//    @Override
-//    public String getSmellName() {
-//        return "Constructor Initialization";
-//    }
-//
-//    /**
-//     * Returns true if any of the elements has a smellRules
-//     */
-//    @Override
-//    public boolean getHasSmell() {
-//        return smellyElementList.stream().filter(x -> x.getHasSmell()).count() >= 1;
-//    }
-//
-//    /**
-//     * Analyze the test file for Constructor Initialization smellRules
-//     */
-//    @Override
-//    public void runAnalysis(CompilationUnit testFileCompilationUnit,CompilationUnit productionFileCompilationUnit) throws FileNotFoundException {
-//        EarlyResourceBindingRule.ClassVisitor classVisitor;
-//        classVisitor = new EarlyResourceBindingRule.ClassVisitor();
-//        classVisitor.visit(testFileCompilationUnit, null);
-//    }
-//
-//    /**
-//     * Returns the set of analyzed elements (i.e. test methods)
-//     */
-//    @Override
-//    public List<SmellyElement> getSmellyElements() {
-//        return smellyElementList;
-//    }
-//
-//
-//    private class ClassVisitor extends VoidVisitorAdapter<Void> {
-//        Class testClass;
-//
-//        @Override
-//        public void visit(ConstructorDeclaration n, Void arg) {
-//            testClass = new Class(n.getNameAsString());
-//            testClass.setHasSmell(true);
-//            smellyElementList.add(testClass);
-//        }
-//    }
-//}
+//            }
+        }
+
+    }
+
+    @Override
+    public List<SmellyElement> getSmellyElements() {
+        return smellyElementList;
+    }
+
+    private class ClassVisitor extends VoidVisitorAdapter<Void> {
+        MethodChild methodChild;
+        @Override
+        public void visit(MethodDeclaration n, Void arg) {
+            currentMethod = n.getNameAsString();
+            methodChild = new MethodChild(n.getNameAsString());
+
+            super.visit(n, arg);
+
+            methodChildList.add(methodChild);
+
+        }
+        @Override
+        public void visit(MethodCallExpr n, Void arg) {
+
+
+            if (currentMethod!= null){
+                String methodName = n.getName().asString();
+
+                methodChild.addCallMethod(methodName);
+                if (methodName.equalsIgnoreCase("requestLocationUpdates")){
+
+                    foundSmellMethod = currentMethod;
+
+
+                }
+            }
+
+            super.visit(n, arg);
+
+        }
+
+
+    }
+
+}

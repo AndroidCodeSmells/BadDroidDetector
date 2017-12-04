@@ -76,7 +76,7 @@
 //                super.visit(n, arg);
 //
 //                testMethod.setHasSmell(exceptionCount >= 1);
-//                testMethod.addDataItem("ExceptionCount", String.valueOf(exceptionCount));
+//                testMethod.addCallMethod("ExceptionCount", String.valueOf(exceptionCount));
 //
 //                smellyElementList.add(testMethod);
 //

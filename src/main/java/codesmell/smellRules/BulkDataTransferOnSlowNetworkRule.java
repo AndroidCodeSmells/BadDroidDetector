@@ -76,7 +76,7 @@
 //                else if(assertCount >=2 && assertMessageCount >=1) //if there is more than one assert statement, then all the asserts need to have an explanation message
 //                    testMethod.setHasSmell(true);
 //
-//                testMethod.addDataItem("AssertCount", String.valueOf(assertMessageCount));
+//                testMethod.addCallMethod("AssertCount", String.valueOf(assertMessageCount));
 //
 //                smellyElementList.add(testMethod);
 //

@@ -29,7 +29,7 @@ public class CodeSmellDetector {
         testSmells = new ArrayList<>();
 //        testSmells.add(new BulkDataTransferOnSlowNetworkRule());
 //        testSmells.add(new DroppedDataRule());
-//        testSmells.add(new EarlyResourceBindingRule());
+          testSmells.add(new EarlyResourceBindingRule());
           testSmells.add(new UncontrolledFocusOrderRule());
           testSmells.add(new UncontrolledFocusOrderRule());
 //        testSmells.add(new InterruptingFromBackgroundRule());

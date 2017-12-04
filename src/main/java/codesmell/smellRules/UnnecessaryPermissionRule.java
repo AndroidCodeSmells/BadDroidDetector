@@ -76,7 +76,7 @@
 //                super.visit(n, arg);
 //
 //                testMethod.setHasSmell(printCount >= 1);
-//                testMethod.addDataItem("PrintCount", String.valueOf(printCount));
+//                testMethod.addCallMethod("PrintCount", String.valueOf(printCount));
 //
 //                smellyElementList.add(testMethod);
 //

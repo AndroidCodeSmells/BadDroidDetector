@@ -75,12 +75,12 @@
 //
 //                testMethod.setHasSmell(conditionCount > 0 | ifCount > 0 | switchCount > 0 | foreachCount > 0 | forCount > 0 | whileCount > 0);
 //
-//                testMethod.addDataItem("ConditionCount", String.valueOf(conditionCount));
-//                testMethod.addDataItem("IfCount", String.valueOf(ifCount));
-//                testMethod.addDataItem("SwitchCount", String.valueOf(switchCount));
-//                testMethod.addDataItem("ForeachCount", String.valueOf(foreachCount));
-//                testMethod.addDataItem("ForCount", String.valueOf(forCount));
-//                testMethod.addDataItem("WhileCount", String.valueOf(whileCount));
+//                testMethod.addCallMethod("ConditionCount", String.valueOf(conditionCount));
+//                testMethod.addCallMethod("IfCount", String.valueOf(ifCount));
+//                testMethod.addCallMethod("SwitchCount", String.valueOf(switchCount));
+//                testMethod.addCallMethod("ForeachCount", String.valueOf(foreachCount));
+//                testMethod.addCallMethod("ForCount", String.valueOf(forCount));
+//                testMethod.addCallMethod("WhileCount", String.valueOf(whileCount));
 //
 //                smellyElementList.add(testMethod);
 //

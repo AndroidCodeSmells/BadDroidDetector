@@ -75,7 +75,7 @@
 //                super.visit(n, arg);
 //
 //                testMethod.setHasSmell(sleepCount >= 1);
-//                testMethod.addDataItem("ThreadSleepCount", String.valueOf(sleepCount));
+//                testMethod.addCallMethod("ThreadSleepCount", String.valueOf(sleepCount));
 //
 //                smellyElementList.add(testMethod);
 //
