@@ -44,19 +44,17 @@ public class EarlyResourceBindingRule extends AbstractSmell{
         classVisitor = new EarlyResourceBindingRule.ClassVisitor();
         classVisitor.visit(compilationUnit, null);
 
-            if (foundSmellMethod!=null){
-                for (MethodChild m : methodChildList) {
+        if (foundSmellMethod!=null){
+            for (MethodChild m : methodChildList) {
 
-                    if (m.has(foundSmellMethod)){
-                        Method smell = new Method(foundSmellMethod);
-                        smell.setHasSmell(true);
-                        smellyElementList.add(smell);
-                    }
+                if (m.has(foundSmellMethod) && m.getMethodName().equalsIgnoreCase("onCreate")){
+                    Method smell = new Method(foundSmellMethod);
+                    smell.setHasSmell(true);
+                    smellyElementList.add(smell);
                 }
+            }
 
-//            if (n.getNameAsString().equalsIgnoreCase("onCreate")){
-//
-//            }
+
         }
 
     }

@@ -24,8 +24,8 @@ public class Main {
           Read the the folder list subfolder and build the File objects
          */
 
-        BufferedReader in = new BufferedReader(new FileReader("\\\\Mac\\Home\\Desktop\\untitled folder\\sample.csv"));
-        //BufferedReader in = new BufferedReader(new FileReader("/Users/khalidsalmalki/Desktop/untitled folder/sample.csv"));
+       // BufferedReader in = new BufferedReader(new FileReader("\\\\Mac\\Home\\Desktop\\untitled folder\\sample.csv"));
+        BufferedReader in = new BufferedReader(new FileReader("/Users/khalidalmalki/Desktop/sample.csv"));
 
         String str;
 
