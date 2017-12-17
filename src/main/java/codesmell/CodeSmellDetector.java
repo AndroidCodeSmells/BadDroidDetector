@@ -26,13 +26,13 @@ public class CodeSmellDetector {
     }
 
     private void initializeSmells(){
-        testSmells = new ArrayList<>();
-//        testSmells.add(new BulkDataTransferOnSlowNetworkRule());
+          testSmells = new ArrayList<>();
+          testSmells.add(new InterruptingFromBackgroundRule());
+          testSmells.add(new BulkDataTransferOnSlowNetworkRule());
           testSmells.add(new DroppedDataRule());
           testSmells.add(new EarlyResourceBindingRule());
           testSmells.add(new UncontrolledFocusOrderRule());
           testSmells.add(new UncontrolledFocusOrderRule());
-//        testSmells.add(new InterruptingFromBackgroundRule());
 //        testSmells.add(new SetConfigChangesRule());
         //testSmells.add(new ProhibitedDataTransferRule());
 //        testSmells.add(new UnnecessaryPermissionRule());

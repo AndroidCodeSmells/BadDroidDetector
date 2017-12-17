@@ -18,6 +18,7 @@ public class Main {
 //XmlParser.ElementCollection i = XmlParser.FindAttribute("C:\\Projects\\milk\\Apps\\accessible\\DemoApp03\\app\\src\\main\\res\\layout\\activity_main.xml", "contentDescription");
 
 
+
         CodeSmellDetector codeSmellDetector = CodeSmellDetector.createTestSmellDetector();
 
         /*

@@ -25,7 +25,6 @@ import java.util.stream.IntStream;
 
 public class DroppedDataRule extends AbstractSmell{
     private List<SmellyElement> smellyElementList;
-    private  String  currentMethod, foundSmellMethod ;
     private List<Variable> variableList;
     private List<String> listOfUserControls;
 
@@ -67,10 +66,8 @@ public class DroppedDataRule extends AbstractSmell{
         classVisitor.visit(compilationUnit, null);
 
         if (variableList.size()>0){
-            System.out.println("variableList");
 
             if (CompilationUnitForonSaveInstanceState != null){
-                System.out.println("CompilationUnitForonSaveInstanceState"+CompilationUnitForonSaveInstanceState.getNameAsString());
                 DroppedDataRule.onSaveInstanceState onSaveInstanceState;
                 onSaveInstanceState = new DroppedDataRule.onSaveInstanceState();
                 onSaveInstanceState.visit(CompilationUnitForonSaveInstanceState, null);
@@ -124,9 +121,7 @@ public class DroppedDataRule extends AbstractSmell{
 
         @Override
         public void visit(VariableDeclarator n, Void arg) {
-            System.out.println(n.getName());
             if(listOfUserControls.contains(n.getType().asString())){
-                System.out.println("listOfUserControls");
                 variableList.add( new Variable(n.getNameAsString(),n.getType().asString()));
             }
             super.visit(n, arg);
