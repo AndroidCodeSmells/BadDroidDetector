@@ -69,7 +69,6 @@ public class InterruptingFromBackgroundRule extends AbstractSmell{
 
 
             for (Object implementedType : n.getExtendedTypes().parallelStream().toArray()){
-                System.out.println(implementedType.toString());
                 if (implementedType.toString().equalsIgnoreCase("BroadcastReceiver") ||
                         implementedType.toString().equalsIgnoreCase("Service")){
 
@@ -84,7 +83,6 @@ public class InterruptingFromBackgroundRule extends AbstractSmell{
         @Override
         public void visit(MethodCallExpr n, Void arg) {
 
-            System.out.println(n.getName().toString());
 
             if (isClassHasBroadcastRecieversOrServices){
 
