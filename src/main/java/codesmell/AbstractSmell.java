@@ -16,4 +16,6 @@ public abstract class AbstractSmell {
     public abstract void runAnalysis(CompilationUnit compilationUnit,XmlParser xmlParser) throws FileNotFoundException, DocumentException;
 
     public abstract List<SmellyElement> getSmellyElements();
+
+
 }

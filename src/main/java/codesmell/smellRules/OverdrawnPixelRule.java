@@ -3,7 +3,6 @@ package codesmell.smellRules;
 import codesmell.AbstractSmell;
 import codesmell.XmlParser;
 import codesmell.entity.Method;
-import codesmell.entity.MethodChild;
 import codesmell.entity.SmellyElement;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
