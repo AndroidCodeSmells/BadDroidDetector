@@ -22,7 +22,7 @@ public class XmlParser {
     public XmlParser(String filePath) throws DocumentException {
         SAXReader reader = new SAXReader();
          document = reader.read(filePath);
-       elements = document.selectNodes(".//*");
+         elements = document.selectNodes(".//*");
 
     }
 

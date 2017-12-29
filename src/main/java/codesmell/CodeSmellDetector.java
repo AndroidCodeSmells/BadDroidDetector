@@ -35,7 +35,7 @@ public class CodeSmellDetector {
 //          testSmells.add(new DroppedDataRule());
 //          testSmells.add(new EarlyResourceBindingRule());
 //          testSmells.add(new UncontrolledFocusOrderRule());
-//          testSmells.add(new SetConfigChangesRule());
+         testSmells.add(new SetConfigChangesRule());
             testSmells.add(new ProhibitedDataTransferRule());
 //          testSmells.add(new UnnecessaryPermissionRule());
 
