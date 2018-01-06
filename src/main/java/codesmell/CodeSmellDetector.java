@@ -27,7 +27,7 @@ public class CodeSmellDetector {
 
     private void initializeSmells(){
           testSmells = new ArrayList<>();
-                 testSmells.add(new NestedLayoutRule());
+    //             testSmells.add(new NestedLayoutRule());
 
 //          testSmells.add(new OverdrawnPixelRule());
 //          testSmells.add(new InterruptingFromBackgroundRule());
@@ -35,13 +35,13 @@ public class CodeSmellDetector {
 //          testSmells.add(new DroppedDataRule());
 //          testSmells.add(new EarlyResourceBindingRule());
 //          testSmells.add(new UncontrolledFocusOrderRule());
-         testSmells.add(new SetConfigChangesRule());
-            testSmells.add(new ProhibitedDataTransferRule());
+//         testSmells.add(new SetConfigChangesRule());
+   //        testSmells.add(new ProhibitedDataTransferRule());
 //          testSmells.add(new UnnecessaryPermissionRule());
 
 //          testSmells.add(new UntouchableRule());
 //          testSmells.add(new TrackingHardwareIdRule());
-//        testSmells.add(new UncachedViewsRule());
+        testSmells.add(new TerminateOpenInternetConnectionRule());
 
     }
 

@@ -3,10 +3,13 @@ package codesmell.smellRules;
 import codesmell.entity.MethodChild;
 import codesmell.entity.SmellyElement;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import codesmell.*;
+import com.github.javaparser.ast.expr.ConditionalExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import org.dom4j.DocumentException;
@@ -21,6 +24,7 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
 
     private boolean isClassUsingTheInternet;
     private VariableDeclarator networkInfo;
+    private  String methodName;
 
     public ProhibitedDataTransferRule() {
 
@@ -54,6 +58,10 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
         ProhibitedDataTransferRule.ClassVisitor classVisitor;
         classVisitor = new ProhibitedDataTransferRule.ClassVisitor();
         classVisitor.visit(compilationUnit, null);
+
+        if (isClassUsingTheInternet){
+            System.out.println("isClassUsingTheInternet class deal with internet");
+        }
     }
 
 
@@ -68,13 +76,27 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
     }
 
     private class ClassVisitor extends VoidVisitorAdapter<Void> {
+
+
+
         MethodChild methodChild;
 
+        @Override
+        public void visit(MethodCallExpr n, Void arg) {
+
+            if (n.getName().asString().equalsIgnoreCase("getBackgroundDataSetting")){
+                System.out.println("MethodCallExpr   "+n.getName());
+
+                methodName = n.getName().asString();
+            }else {
+                methodName = null;
+            }
+            super.visit(n, arg);
+        }
 
             @Override
             public void visit(VariableDeclarator n, Void arg) {
 
-                System.out.println(n.getType().asString() +"->"+ n.getNameAsString());
                 if (n.getType().asString().equalsIgnoreCase("HttpURLConnection")
                         || n.getType().asString().equalsIgnoreCase("HttpClient")){
 
@@ -83,33 +105,45 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
                 }
 
                 if (n.getType().asString().equalsIgnoreCase("NetworkInfo")){ // get the name of NetworkInfo type
+                    System.out.println(n.getType().asString() +"->"+ n.getNameAsString());
 
                     networkInfo = n;
 
                 }
 
+                if (methodName != null){
+                    System.out.println(n.getType().asString() +"->"+ n.getNameAsString());
+
+                }
                 super.visit(n, arg);
 
 
             }
 
-        @Override
-        public void visit(MethodCallExpr n, Void arg) {
-            System.out.println("IfStmt   "+n.getScope().toString());
-            super.visit(n, arg);
-        }
+
+
+
 
         @Override
         public void visit(IfStmt n, Void arg) {
-            System.out.println("IfStmt   "+n.getCondition().getChildNodes().toString());
+            System.out.println("IfStmt   "+n.getCondition().toString());
+            System.out.println(Arrays.toString(n.getCondition().toString().split("!")));
 
+//            for (Node x : n.getCondition().getChildNodes()){
+//                System.out.println("IfStmt   "+x.toString());
+//
+//
+//            }
             if (networkInfo != null){
-                System.out.println("IfStmt   "+n.getCondition().getChildNodes().toString());
+                System.out.println("IfStmt   "+n.getCondition().toString());
 
             }
             super.visit(n, arg);
         }
+
+
     }
+
 
 
 
