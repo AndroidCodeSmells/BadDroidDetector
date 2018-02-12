@@ -35,7 +35,9 @@ public class SetConfigChangesRule extends AbstractSmell{
 
     @Override
     public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
-
+        if(xmlParser == null){
+            return;
+        }
         XmlParser.ElementCollection setConfigChangesRule = xmlParser.FindAttribute("configChanges");
 
         // androidManifest

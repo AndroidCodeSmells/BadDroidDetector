@@ -36,25 +36,29 @@ public class NestedLayoutRule extends AbstractSmell{
     @Override
     public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
 
-        XmlParser.ElementCollection nestedLayoutRule = xmlParser.FindNode("LinearLayout");
+        if (xmlParser != null){
+            XmlParser.ElementCollection nestedLayoutRule = xmlParser.FindNode("LinearLayout");
 
-        // LinearLayout
-        // contain android:layout_weight
-        for (Element element :nestedLayoutRule.getElementsWithAttribute()) {
+            // LinearLayout
+            // contain android:layout_weight
+            for (Element element :nestedLayoutRule.getElementsWithAttribute()) {
 
-            for (Attribute att : element.attributes()){
+                for (Attribute att : element.attributes()){
 
-                if (att.getName().equalsIgnoreCase("layout_weight")){
-                    Method xmlelement = new Method(element.getName());
-                     xmlelement.setHasSmell(true);
-                     smellyElementList.add(xmlelement);
+                    if (att.getName().equalsIgnoreCase("layout_weight")){
+                        Method xmlelement = new Method(element.getName());
+                        xmlelement.setHasSmell(true);
+                        smellyElementList.add(xmlelement);
 
 
+                    }
                 }
+
+
             }
-
-
         }
+
+
 
 
 

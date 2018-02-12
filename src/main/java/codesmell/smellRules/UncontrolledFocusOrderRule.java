@@ -33,6 +33,9 @@ public class UncontrolledFocusOrderRule extends AbstractSmell{
     @Override
     public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
 
+        if(xmlParser == null){
+            return;
+        }
         XmlParser.ElementsCollection  notDescriptive = xmlParser.FindAttribute();
 
         for (Element element :notDescriptive.getElementsWithAttribute()) {

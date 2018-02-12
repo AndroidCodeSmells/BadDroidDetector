@@ -25,8 +25,8 @@ public class Main {
           Read the the folder list subfolder and build the File objects
          */
 
-       // BufferedReader in = new BufferedReader(new FileReader("\\\\Mac\\Home\\Desktop\\untitled folder\\sample.csv"));
-        BufferedReader in = new BufferedReader(new FileReader("/Users/khalidalmalki/Desktop/sample.csv"));
+        //BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\crashFile.txt"));
+        BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\tags\\tags_join_class_xml.csv"));
 
         String str;
 
@@ -38,10 +38,10 @@ public class Main {
             lineItem = str.split(",");
 
             //check if the test file has an associated production file
-            if (lineItem.length == 3) {
-                testFile = new File(lineItem[0], lineItem[1],lineItem[2]);
+            if (lineItem.length == 4) {
+                testFile = new File(lineItem[0], lineItem[1],lineItem[2],lineItem[3]);
             } else {
-                testFile = new File(lineItem[0], lineItem[1],lineItem[2]);
+                testFile = new File(lineItem[0], lineItem[1],lineItem[2],null);
             }
             files.add(testFile);
         }
@@ -56,8 +56,9 @@ public class Main {
 
         columnNames = codeSmellDetector.getTestSmellNames();
         columnNames.add(0, "App");
-        columnNames.add(1, "FilePath");
-        columnNames.add(2, "XmlFilePath");
+        columnNames.add(1, "Tag");
+        columnNames.add(2, "JavaFilePath");
+        columnNames.add(3, "XmlFilePath");
 
         resultsWriter.writeColumnName(columnNames);
 
@@ -75,6 +76,7 @@ public class Main {
             //write output
             columnValues = new ArrayList<>();
             columnValues.add(file.getApp());
+            columnValues.add(file.getTag());
             columnValues.add(file.getFilePath());
             columnValues.add(file.getXmlFilePath());
 

@@ -31,7 +31,9 @@ public class UntouchableRule extends AbstractSmell{
 
     @Override
     public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
-
+        if(xmlParser == null){
+            return;
+        }
        XmlParser.ElementCollection layout_widthAttribute = xmlParser.FindAttribute("layout_width");
 
        for (Element element : layout_widthAttribute.getElementsWithAttribute()){

@@ -7,6 +7,13 @@ import java.util.List;
 
 public class File {
     private String app;
+
+    public String getTag() {
+        return tag;
+    }
+
+    private String tag;
+
     private String filePath;
 
     public String getXmlFilePath() {
@@ -32,8 +39,9 @@ public class File {
         return filePath;//((filePath != null && !filePath.isEmpty()));
     }
 
-    public File(String app, String filePath, String xmlFilePath ) {
+    public File(String app,String tag, String filePath, String xmlFilePath ) {
         this.app = app;
+        this.tag = tag;
         this.filePath = filePath;
         this.codeSmells = new ArrayList<>();
         this.xmlFilePath = xmlFilePath;

@@ -27,21 +27,19 @@ public class CodeSmellDetector {
 
     private void initializeSmells(){
           testSmells = new ArrayList<>();
-    //             testSmells.add(new NestedLayoutRule());
-
+//          testSmells.add(new NestedLayoutRule());
 //          testSmells.add(new OverdrawnPixelRule());
 //          testSmells.add(new InterruptingFromBackgroundRule());
 //          testSmells.add(new BulkDataTransferOnSlowNetworkRule());
 //          testSmells.add(new DroppedDataRule());
 //          testSmells.add(new EarlyResourceBindingRule());
 //          testSmells.add(new UncontrolledFocusOrderRule());
-//         testSmells.add(new SetConfigChangesRule());
-   //        testSmells.add(new ProhibitedDataTransferRule());
-//          testSmells.add(new UnnecessaryPermissionRule());
-
+//          testSmells.add(new SetConfigChangesRule());
+          testSmells.add(new ProhibitedDataTransferRule());
+//          testSmells.add(new NotDescriptiveUIRule());
 //          testSmells.add(new UntouchableRule());
 //          testSmells.add(new TrackingHardwareIdRule());
-        testSmells.add(new TerminateOpenInternetConnectionRule());
+//          testSmells.add(new TerminateOpenInternetConnectionRule());
 
     }
 
@@ -75,26 +73,32 @@ public class CodeSmellDetector {
         if(file.getFileType()== File.FileType.JAVA) {
             if (!StringUtils.isEmpty(file.getFilePath())) {
                 fileInputStream = new FileInputStream(file.getFilePath());
-                compilationUnit = JavaParser.parse(fileInputStream);
+                try {
+                    compilationUnit = JavaParser.parse(fileInputStream);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             if (!StringUtils.isEmpty(file.getXmlFilePath())) {
                 xmlParser = new XmlParser(file.getXmlFilePath());
             }
+            if (compilationUnit != null) {
 
 
-            initializeSmells();
-            for (AbstractSmell smell : testSmells) {
-                try {
-                    smell.runAnalysis(compilationUnit,xmlParser);
-                } catch (FileNotFoundException e) {
-                    file.addSmell(null);
-                    continue;
+                initializeSmells();
+                for (AbstractSmell smell : testSmells) {
+                    try {
+                        smell.runAnalysis(compilationUnit, xmlParser);
+                    } catch (FileNotFoundException e) {
+                        file.addSmell(null);
+                        continue;
+                    }
+                    file.addSmell(smell);
                 }
-                file.addSmell(smell);
-            }
-        }
-        else{
+            } else {
 
+            }
         }
 
         return file;
