@@ -126,17 +126,19 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
         @Override
         public void visit(IfStmt n, Void arg) {
 
-                if (n.getCondition() instanceof BinaryExpr){
 
-                    BinaryExpr condition = (BinaryExpr) n.getCondition();
+            for (Node chNode:n.getCondition().getChildNodes()) {
 
-                    if ()
-                    BinaryExpr c = condition.getLeft().asBinaryExpr();
+                if (chNode instanceof BinaryExpr){
 
+                    BinaryExpr condition = (BinaryExpr) chNode;
 
-                    System.out.println( c.getLeft().toString());
+                    System.out.println( condition.getOperator());
 
-                 }
+                }
+
+            }
+
 
 
 
