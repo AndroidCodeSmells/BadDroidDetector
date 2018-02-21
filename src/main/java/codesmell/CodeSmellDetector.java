@@ -16,30 +16,41 @@ import java.util.stream.Collectors;
 
 public class CodeSmellDetector {
 
-    private List<AbstractSmell> testSmells;
+    private List<AbstractSmell> codeSmellsJava;
+    private List<AbstractSmell> codeSmellsXmel;
 
     /**
      * Instantiates the various test smellRules analyzer classes and loads the objects into an List
      */
     public CodeSmellDetector() {
-        initializeSmells();
+        initializeJavaSmells();
+    }
+    public CodeSmellDetector(String s) {
+        initializeXmlSmells();
     }
 
-    private void initializeSmells(){
-          testSmells = new ArrayList<>();
-//          testSmells.add(new NestedLayoutRule());
-//          testSmells.add(new OverdrawnPixelRule());
-//          testSmells.add(new InterruptingFromBackgroundRule());
-//          testSmells.add(new BulkDataTransferOnSlowNetworkRule());
-//          testSmells.add(new DroppedDataRule());
-//          testSmells.add(new EarlyResourceBindingRule());
-//          testSmells.add(new UncontrolledFocusOrderRule());
-//          testSmells.add(new SetConfigChangesRule());
-          testSmells.add(new ProhibitedDataTransferRule());
-//          testSmells.add(new NotDescriptiveUIRule());
-//          testSmells.add(new UntouchableRule());
-//          testSmells.add(new TrackingHardwareIdRule());
-//          testSmells.add(new TerminateOpenInternetConnectionRule());
+    private void initializeJavaSmells(){
+          codeSmellsJava = new ArrayList<>();
+
+          codeSmellsJava.add(new InterruptingFromBackgroundRule());
+          codeSmellsJava.add(new BulkDataTransferOnSlowNetworkRule());
+          codeSmellsJava.add(new DroppedDataRule());
+          codeSmellsJava.add(new EarlyResourceBindingRule());
+          codeSmellsJava.add(new ProhibitedDataTransferRule());
+          codeSmellsJava.add(new TrackingHardwareIdRule());
+          codeSmellsJava.add(new TerminateOpenInternetConnectionRule());
+
+    }
+
+    private void initializeXmlSmells(){
+            codeSmellsXmel = new ArrayList<>();
+
+            codeSmellsXmel.add(new NestedLayoutRule());
+            codeSmellsXmel.add(new OverdrawnPixelRule());
+            codeSmellsXmel.add(new NotDescriptiveUIRule());
+            codeSmellsXmel.add(new UncontrolledFocusOrderRule());
+            codeSmellsXmel.add(new UntouchableRule());
+
 
     }
 
@@ -48,23 +59,39 @@ public class CodeSmellDetector {
      *
      * @return new CodeSmellDetector instance
      */
-    public static CodeSmellDetector createTestSmellDetector() {
+    public static CodeSmellDetector createJavaSmellDetector() {
         return new CodeSmellDetector();
     }
+
+    public static CodeSmellDetector createXmlSmellDetector() {
+        return new CodeSmellDetector("xml");
+    }
+
 
     /**
      * Provides the names of the smells that are being checked for in the code
      *
      * @return list of smellRules names
      */
-    public List<String> getTestSmellNames() {
-        return testSmells.stream().map(AbstractSmell::getSmellName).collect(Collectors.toList());
+    public List<String> getJavaSmellNames() {
+        return codeSmellsJava.stream().map(AbstractSmell::getSmellName).collect(Collectors.toList());
     }
+
+
+    /**
+     * Provides the names of the smells that are being checked for in the code
+     *
+     * @return list of smellRules names
+     */
+    public List<String> getXmlSmellNames() {
+        return codeSmellsXmel.stream().map(AbstractSmell::getSmellName).collect(Collectors.toList());
+    }
+
 
     /**
      * Loads the java source code file into an AST and then analyzes it for the existence of the different types of android code smells smells
      */
-    public File detectSmells(File file) throws IOException, DocumentException {
+    public File detectSmellsJavaFile(File file) throws IOException, DocumentException {
         CompilationUnit compilationUnit=null;
         XmlParser xmlParser=null;
 
@@ -80,21 +107,50 @@ public class CodeSmellDetector {
                     e.printStackTrace();
                 }
             }
-            if (!StringUtils.isEmpty(file.getXmlFilePath())) {
-                xmlParser = new XmlParser(file.getXmlFilePath());
-            }
             if (compilationUnit != null) {
 
 
-                initializeSmells();
-                for (AbstractSmell smell : testSmells) {
+                initializeJavaSmells();
+                for (AbstractSmell smell : codeSmellsJava) {
                     try {
-                        smell.runAnalysis(compilationUnit, xmlParser);
+                        smell.runAnalysis(compilationUnit, null);
                     } catch (FileNotFoundException e) {
                         file.addSmell(null);
                         continue;
                     }
                     file.addSmell(smell);
+                }
+            } else {
+
+            }
+        }
+
+        return file;
+    }
+
+    public File detectSmellsXmlFile(File file) throws IOException, DocumentException {
+        XmlParser xmlParser=null;
+
+        FileInputStream  fileInputStream;
+
+        if(file.getFileType()== File.FileType.XML) {
+
+            if (!StringUtils.isEmpty(file.getFilePath())) {
+                xmlParser = new XmlParser(file.getFilePath());
+            }
+            if (xmlParser != null) {
+
+
+                initializeXmlSmells();
+                for (AbstractSmell XmlSmells : codeSmellsXmel) {
+                    try { // sen
+                        XmlSmells.runAnalysis(null, xmlParser);
+
+                    } catch (FileNotFoundException e) {
+                        file.addSmell(null);
+                        continue;
+                    }
+                    file.addSmell(XmlSmells);
                 }
             } else {
 

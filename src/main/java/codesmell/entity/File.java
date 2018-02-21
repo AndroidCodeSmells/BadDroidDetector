@@ -16,15 +16,8 @@ public class File {
 
     private String filePath;
 
-    public String getXmlFilePath() {
-        return xmlFilePath;
-    }
 
-    public void setXmlFilePath(String xmlFilePath) {
-        this.xmlFilePath = xmlFilePath;
-    }
 
-    private String xmlFilePath;
     private List<AbstractSmell> codeSmells;
 
     public String getApp() {
@@ -39,12 +32,11 @@ public class File {
         return filePath;//((filePath != null && !filePath.isEmpty()));
     }
 
-    public File(String app,String tag, String filePath, String xmlFilePath ) {
+    public File(String app,String tag, String filePath ) {
         this.app = app;
         this.tag = tag;
         this.filePath = filePath;
         this.codeSmells = new ArrayList<>();
-        this.xmlFilePath = xmlFilePath;
     }
 
     public FileType getFileType(){

@@ -1,23 +1,18 @@
 package codesmell.smellRules;
-
+//java
 import codesmell.entity.MethodChild;
 import codesmell.entity.SmellyElement;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import codesmell.*;
 import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.ConditionalExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.Name;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import org.dom4j.DocumentException;
 
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.function.BinaryOperator;
 
 
 public class ProhibitedDataTransferRule extends AbstractSmell {
@@ -126,15 +121,19 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
         @Override
         public void visit(IfStmt n, Void arg) {
 
+
+            n.getCondition().getChildNodes().size();
+
                 if (n.getCondition() instanceof BinaryExpr){
 
                     BinaryExpr condition = (BinaryExpr) n.getCondition();
 
-                    if ()
-                    BinaryExpr c = condition.getLeft().asBinaryExpr();
 
 
-                    System.out.println( c.getLeft().toString());
+
+
+
+
 
                  }
 

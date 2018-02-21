@@ -1,5 +1,5 @@
 package codesmell.smellRules;
-
+// xml
 import codesmell.AbstractSmell;
 import codesmell.XmlParser;
 import codesmell.entity.Method;
