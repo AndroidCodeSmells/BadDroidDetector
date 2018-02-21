@@ -3,6 +3,7 @@ package codesmell.smellRules;
 import codesmell.entity.MethodChild;
 import codesmell.entity.SmellyElement;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import codesmell.*;
 import com.github.javaparser.ast.expr.BinaryExpr;
@@ -21,7 +22,7 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
 
     private boolean isClassUsingTheInternet;
     private VariableDeclarator networkInfo;
-    private  String methodName;
+    private String methodName;
 
     public ProhibitedDataTransferRule() {
 
@@ -54,12 +55,10 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
         classVisitor = new ProhibitedDataTransferRule.ClassVisitor();
         classVisitor.visit(compilationUnit, null);
 
-        if (isClassUsingTheInternet){
+        if (isClassUsingTheInternet) {
             System.out.println("isClassUsingTheInternet class deal with internet");
         }
     }
-
-
 
 
     /**
@@ -73,100 +72,79 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
     private class ClassVisitor extends VoidVisitorAdapter<Void> {
 
 
-
         MethodChild methodChild;
 
         @Override
         public void visit(MethodCallExpr n, Void arg) {
 
-            if (n.getName().asString().equalsIgnoreCase("getBackgroundDataSetting")){
+            if (n.getName().asString().equalsIgnoreCase("getBackgroundDataSetting")) {
 
                 methodName = n.getName().asString();
-            }else {
+            } else {
                 methodName = null;
             }
             super.visit(n, arg);
         }
 
-            @Override
-            public void visit(VariableDeclarator n, Void arg) {
+        @Override
+        public void visit(VariableDeclarator n, Void arg) {
 
-                if (n.getType().asString().equalsIgnoreCase("HttpURLConnection")
-                        || n.getType().asString().equalsIgnoreCase("HttpClient")){
+            if (n.getType().asString().equalsIgnoreCase("HttpURLConnection")
+                    || n.getType().asString().equalsIgnoreCase("HttpClient")) {
 
-                    isClassUsingTheInternet = true;
-
-                }
-
-                if (n.getType().asString().equalsIgnoreCase("NetworkInfo")){ // get the name of NetworkInfo type
-                    System.out.println(n.getType().asString() +"->"+ n.getNameAsString());
-
-                    networkInfo = n;
-
-                }
-
-                if (methodName != null){
-                    System.out.println(n.getType().asString() +"->"+ n.getNameAsString());
-
-                }
-                super.visit(n, arg);
-
+                isClassUsingTheInternet = true;
 
             }
 
+            if (n.getType().asString().equalsIgnoreCase("NetworkInfo")) { // get the name of NetworkInfo type
+                System.out.println(n.getType().asString() + "->" + n.getNameAsString());
+
+                networkInfo = n;
+
+            }
+
+            if (methodName != null) {
+                System.out.println(n.getType().asString() + "->" + n.getNameAsString());
+
+            }
+            super.visit(n, arg);
 
 
+        }
 
 
         @Override
         public void visit(IfStmt n, Void arg) {
 
-<<<<<<< HEAD
 
             n.getCondition().getChildNodes().size();
 
-                if (n.getCondition() instanceof BinaryExpr){
-=======
->>>>>>> 4a4d7abb9e9ae16ccfe1ac2f1604fe4964d5d95f
+            if (n.getCondition() instanceof BinaryExpr) {
 
-            for (Node chNode:n.getCondition().getChildNodes()) {
-
-<<<<<<< HEAD
-=======
-                if (chNode instanceof BinaryExpr){
->>>>>>> 4a4d7abb9e9ae16ccfe1ac2f1604fe4964d5d95f
-
-                    BinaryExpr condition = (BinaryExpr) chNode;
-
-<<<<<<< HEAD
+                for (Node chNode : n.getCondition().getChildNodes()) {
 
 
+                    if (chNode instanceof BinaryExpr) {
+
+                        BinaryExpr condition = (BinaryExpr) chNode;
 
 
-=======
-                    System.out.println( condition.getOperator());
+                        System.out.println(condition.getOperator());
+
+                    }
 
                 }
 
+
+                if (networkInfo != null) {
+
+                }
+                super.visit(n, arg);
             }
->>>>>>> 4a4d7abb9e9ae16ccfe1ac2f1604fe4964d5d95f
 
 
-
-
-
-
-            if (networkInfo != null){
-
-            }
-            super.visit(n, arg);
         }
 
 
     }
-
-
-
-
-
 }
