@@ -35,36 +35,58 @@ public class NestedLayoutRule extends AbstractSmell{
 
     @Override
     public void runAnalysis(CompilationUnit compilationUnit, XmlParser xmlParser) throws FileNotFoundException, DocumentException {
+        // LinearLayout
+        // contain android:layout_weight
 
         if (xmlParser != null){
-            XmlParser.ElementCollection nestedLayoutRule = xmlParser.FindNode("LinearLayout");
+            XmlParser.ElementsCollection nestedLayoutRule = xmlParser.FindAttribute();
 
-            // LinearLayout
-            // contain android:layout_weight
             for (Element element :nestedLayoutRule.getElementsWithAttribute()) {
 
-                for (Attribute att : element.attributes()){
+                        isLayout_weightExsit(element); // check if contain android:layout_weight
 
-                    if (att.getName().equalsIgnoreCase("layout_weight")){
-                        Method xmlelement = new Method(element.getName());
-                        xmlelement.setHasSmell(true);
-                        smellyElementList.add(xmlelement);
-
-
+                    for (Element elm :element.elements() ){
+                        isLayout_weightExsit(elm);
                     }
                 }
 
 
             }
+
+            }
+
+
+
+
+
+
+
+
+
+
+     private void checkIfelementHasSmell(Element element){
+        for (Attribute att : element.attributes()){
+
+            if (att.getName().equalsIgnoreCase("layout_weight")){
+                Method xmlelement = new Method(element.getName());
+                xmlelement.setHasSmell(true);
+                smellyElementList.add(xmlelement);
+
+
+            }
         }
+    }
 
+    private void isLayout_weightExsit(Element element) {
 
+        if (element.getName().equalsIgnoreCase("LinearLayout")){
 
+            for (Element elm : element.elements()){
 
+                checkIfelementHasSmell(elm);
+            }
 
-
-
-
+        }
 
     }
 

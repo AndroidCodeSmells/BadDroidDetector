@@ -25,7 +25,7 @@ public class MainLayoutSmells {
          */
 
         //BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\crashFile.txt"));
-        BufferedReader input = new BufferedReader(new FileReader("C:\\Users\\khalid\\Desktop\\XmlFIleInputForAndroidCodeSmellDetector1.csv"));
+        BufferedReader input = new BufferedReader(new FileReader("C:\\Users\\khalidalmalki\\Desktop\\testXml.txt"));
 
         String s;
 
