@@ -41,10 +41,14 @@ public class File {
 
     public FileType getFileType(){
         String ext = this.filePath.substring(this.filePath.lastIndexOf("."));
-        if(ext.toLowerCase().equals("xml"))
+
+        if(ext.toLowerCase().equals(".xml"))
             return FileType.XML;
-        else
+        else  if(ext.toLowerCase().equals(".java")){
             return FileType.JAVA;
+        }else {
+            return FileType.UNKNOWN;
+        }
     }
 
     public void addSmell(AbstractSmell smell) {
@@ -53,6 +57,7 @@ public class File {
 
     public enum FileType{
         JAVA,
-        XML
+        XML,
+        UNKNOWN
     }
 }

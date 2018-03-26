@@ -26,7 +26,7 @@ public class Main {
          */
 
         //BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\crashFile.txt"));
-        BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\tags\\tags_join_class_xml.csv"));
+        BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\khalid\\Desktop\\javaFIleInputForAndroidCodeSmellDetector.csv"));
 
         // the data structure will be app,tag, JavaFilePath
         String str;
@@ -51,7 +51,7 @@ public class Main {
         /*
           Initialize the output file - Create the output file and add the column names
          */
-        ResultsWriter resultsWriter = ResultsWriter.createResultsWriter();
+        ResultsWriter resultsWriter = ResultsWriter.createJavaResultsWriter();
         List<String> columnNames;
         List<String> columnValues;
 

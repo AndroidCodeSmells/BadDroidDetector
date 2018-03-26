@@ -22,8 +22,9 @@ public class XmlParser {
     public XmlParser(String filePath) throws DocumentException {
         SAXReader reader = new SAXReader();
          document = reader.read(filePath);
-         elements = document.selectNodes(".//*");
+        Element rootElement = document.getRootElement();
 
+        elements = document.selectNodes(rootElement.getName());
     }
 
     public  ElementCollection FindAttribute( String attributeName) throws DocumentException {
@@ -95,7 +96,6 @@ public class XmlParser {
 
 
         }
-        System.out.println(elementsWithAttribute.size());
 
         return new ElementCollection(elementsWithAttribute,elementsWithoutAttribute);
     }

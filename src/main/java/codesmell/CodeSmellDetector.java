@@ -36,7 +36,7 @@ public class CodeSmellDetector {
           codeSmellsJava.add(new BulkDataTransferOnSlowNetworkRule());
           codeSmellsJava.add(new DroppedDataRule());
           codeSmellsJava.add(new EarlyResourceBindingRule());
-          codeSmellsJava.add(new ProhibitedDataTransferRule());
+        //  codeSmellsJava.add(new ProhibitedDataTransferRule());
           codeSmellsJava.add(new TrackingHardwareIdRule());
           codeSmellsJava.add(new TerminateOpenInternetConnectionRule());
 
@@ -46,10 +46,10 @@ public class CodeSmellDetector {
             codeSmellsXmel = new ArrayList<>();
 
             codeSmellsXmel.add(new NestedLayoutRule());
-            codeSmellsXmel.add(new OverdrawnPixelRule());
             codeSmellsXmel.add(new NotDescriptiveUIRule());
             codeSmellsXmel.add(new UncontrolledFocusOrderRule());
             codeSmellsXmel.add(new UntouchableRule());
+            codeSmellsXmel.add(new SetConfigChangesRule());
 
 
     }
@@ -128,10 +128,8 @@ public class CodeSmellDetector {
         return file;
     }
 
-    public File detectSmellsXmlFile(File file) throws IOException, DocumentException {
+    public File detectSmellsXmlFile(File file) throws  DocumentException {
         XmlParser xmlParser=null;
-
-        FileInputStream  fileInputStream;
 
         if(file.getFileType()== File.FileType.XML) {
 
@@ -142,6 +140,8 @@ public class CodeSmellDetector {
 
 
                 initializeXmlSmells();
+
+
                 for (AbstractSmell XmlSmells : codeSmellsXmel) {
                     try { // sen
                         XmlSmells.runAnalysis(null, xmlParser);

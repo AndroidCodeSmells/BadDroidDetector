@@ -71,7 +71,6 @@ public class OverdrawnPixelRule extends AbstractSmell{
             if (n.getNameAsString().equalsIgnoreCase("onDraw")){
                 currentMethod = n.getNameAsString();
 
-                System.out.println(currentMethod);
                 hasClipRect = false;
 
                 super.visit(n, arg);
@@ -88,7 +87,6 @@ public class OverdrawnPixelRule extends AbstractSmell{
             if (n.getName().asString().equalsIgnoreCase("clipRect")){
 
                 hasClipRect = true;
-                System.out.println(n.getName().asString());
 
             }
             super.visit(n, arg);

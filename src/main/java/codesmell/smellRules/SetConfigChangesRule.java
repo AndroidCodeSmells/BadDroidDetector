@@ -42,16 +42,12 @@ public class SetConfigChangesRule extends AbstractSmell{
 
         // androidManifest
         // contain android:configChanges
+
         if (setConfigChangesRule.getElementsWithAttribute().size()>0){
             Method xmlelement = new Method(setConfigChangesRule.getElementsWithAttribute().get(0).getName());
             xmlelement.setHasSmell(true);
             smellyElementList.add(xmlelement);
         }
-
-
-
-
-
 
 
 

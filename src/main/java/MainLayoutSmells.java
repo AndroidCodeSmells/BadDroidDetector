@@ -25,7 +25,7 @@ public class MainLayoutSmells {
          */
 
         //BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\crashFile.txt"));
-        BufferedReader input = new BufferedReader(new FileReader("G:\\Khalid\\output\\tags\\tags_join_class_xml.csv"));
+        BufferedReader input = new BufferedReader(new FileReader("C:\\Users\\khalid\\Desktop\\XmlFIleInputForAndroidCodeSmellDetector1.csv"));
 
         String s;
 
@@ -49,7 +49,7 @@ public class MainLayoutSmells {
         /*
           Initialize the output file - Create the output file and add the column names
          */
-        ResultsWriter resultsWriter = ResultsWriter.createResultsWriter();
+        ResultsWriter resultsWriter = ResultsWriter.createXmlResultsWriter();
         List<String> columnNames;
         List<String> columnValues;
 
@@ -78,6 +78,7 @@ public class MainLayoutSmells {
 
             for (AbstractSmell smell : tempFile.getCodeSmells()) {
                 try {
+
                     columnValues.add(String.valueOf(smell.getHasSmell()));
                 } catch (NullPointerException e) {
                     columnValues.add("");

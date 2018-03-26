@@ -1,5 +1,8 @@
 package codesmell;
 
+import codesmell.entity.File;
+import codesmell.entity.XML;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -18,9 +21,16 @@ public class ResultsWriter {
      * Creates the file into which output it to be written into. Results from each file will be stored in a new file
      * @throws IOException
      */
-    private ResultsWriter() throws IOException {
+    private ResultsWriter(File.FileType type) throws IOException {
         String time =  String.valueOf(Calendar.getInstance().getTimeInMillis());
-        outputFile = MessageFormat.format("{0}_{1}_{2}.{3}", "Output","TestSmellDetection",time, "csv");
+        String fileLable = "";
+        if (type == File.FileType.XML){
+            fileLable = "Output_XmlFile";
+        }else {
+            fileLable = "Output_JavaFile";
+
+        }
+        outputFile = MessageFormat.format("{0}_{1}_{2}.{3}", fileLable,"AndroidCodeSmellDetection",time, "csv");
         writer = new FileWriter(outputFile,false);
     }
 
@@ -29,10 +39,12 @@ public class ResultsWriter {
      * @return new ResultsWriter instance
      * @throws IOException
      */
-    public static ResultsWriter createResultsWriter() throws IOException {
-        return new ResultsWriter();
+    public static ResultsWriter createJavaResultsWriter() throws IOException {
+        return new ResultsWriter(File.FileType.JAVA);
     }
-
+    public static ResultsWriter createXmlResultsWriter() throws IOException {
+        return new ResultsWriter(File.FileType.XML);
+    }
     /**
      * Writes column names into the CSV file
      * @param columnNames the column names
