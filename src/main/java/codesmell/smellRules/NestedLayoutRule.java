@@ -43,11 +43,8 @@ public class NestedLayoutRule extends AbstractSmell{
 
             for (Element element :nestedLayoutRule.getElementsWithAttribute()) {
 
-                        isLayout_weightExsit(element); // check if contain android:layout_weight
+                      isLayout_weightExsit(element); // check if contain android:layout_weight
 
-                    for (Element elm :element.elements() ){
-                        isLayout_weightExsit(elm);
-                    }
                 }
 
 
@@ -84,6 +81,8 @@ public class NestedLayoutRule extends AbstractSmell{
             for (Element elm : element.elements()){
 
                 checkIfelementHasSmell(elm);
+                isLayout_weightExsit(elm);
+
             }
 
         }
