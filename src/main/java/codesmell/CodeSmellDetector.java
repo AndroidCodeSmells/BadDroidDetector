@@ -31,7 +31,7 @@ public class CodeSmellDetector {
 
     private void initializeJavaSmells(){
           codeSmellsJava = new ArrayList<>();
-
+          codeSmellsJava.add(new OverdrawnPixelRule());
           codeSmellsJava.add(new InterruptingFromBackgroundRule());
           codeSmellsJava.add(new BulkDataTransferOnSlowNetworkRule());
           codeSmellsJava.add(new DroppedDataRule());

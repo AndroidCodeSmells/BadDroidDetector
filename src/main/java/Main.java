@@ -26,7 +26,7 @@ public class Main {
          */
 
         //BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\crashFile.txt"));
-        BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\khalid\\Desktop\\javaFIleInputForAndroidCodeSmellDetector.csv"));
+        BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\khalidalmalki\\Desktop\\test.txt"));
 
         // the data structure will be app,tag, JavaFilePath
         String str;
