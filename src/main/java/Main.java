@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws IOException, DocumentException {
+    public static void main(String[] args) throws Exception{
 
 //XML Parser
 //XmlParser.ElementCollection i = XmlParser.FindAttribute("C:\\Projects\\milk\\Apps\\accessible\\DemoApp03\\app\\src\\main\\res\\layout\\activity_main.xml", "contentDescription");
@@ -25,8 +25,9 @@ public class Main {
           Read the the folder list subfolder and build the File objects
          */
 
-        //BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\crashFile.txt"));
-        BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\khalidalmalki\\Desktop\\test.txt"));
+        //BufferedReader in = new BufferedReader(new FileReader("E:\\Khalid\\appTagFilePathClass.csv\\appTagFilePathClass.csv"));
+        BufferedReader in = new BufferedReader(new FileReader(args[0].toString()));
+
 
         // the data structure will be app,tag, JavaFilePath
         String str;
@@ -44,6 +45,7 @@ public class Main {
             } else {
                 testFile = new File(lineItem[0], lineItem[1],lineItem[2]);
             }
+
             files.add(testFile);
         }
 

@@ -91,7 +91,7 @@ public class CodeSmellDetector {
     /**
      * Loads the java source code file into an AST and then analyzes it for the existence of the different types of android code smells smells
      */
-    public File detectSmellsJavaFile(File file) throws IOException, DocumentException {
+    public File detectSmellsJavaFile(File file) throws Exception {
         CompilationUnit compilationUnit=null;
         XmlParser xmlParser=null;
 
