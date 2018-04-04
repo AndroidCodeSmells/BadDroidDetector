@@ -50,7 +50,7 @@ public class UntouchableRule extends AbstractSmell{
     private void executeChecking(Element element) {
 
 
-        System.out.println(element.getName());
+     //   System.out.println(element.getName());
 
         for (Element elm : element.elements()){
 
@@ -63,19 +63,31 @@ public class UntouchableRule extends AbstractSmell{
 
     }
     private void checkElementWidth(Element element) {
-        String attributeValue =   element.attributeValue("layout_width").toString();
+        String attributeValue =   element.attributeValue("layout_width");
 
-        if (attributeValue.indexOf("dp") !=-1){
-            attributeValue = attributeValue.replace("dp","");
-            float number = Float.valueOf(attributeValue);
+        if (attributeValue != null)
+        {
+            attributeValue =  attributeValue.toString();
 
-            if (number <= 48){
-                Method xmlelement = new Method(element.getName());
-                xmlelement.setHasSmell(true);
-                smellyElementList.add(xmlelement);
-            }
+            if (attributeValue.indexOf("dp") !=-1){
+
+                attributeValue = attributeValue.replace("dp","");
+                if (attributeValue.length()<15){
+                    float number = Float.valueOf(attributeValue).floatValue();
+
+                    if (number <= 48){
+                        Method xmlelement = new Method(element.getName());
+                        xmlelement.setHasSmell(true);
+                        smellyElementList.add(xmlelement);
+                    }
+                }
+
+                }
+
+
 
         }
+
     }
 
     @Override

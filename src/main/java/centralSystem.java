@@ -4,27 +4,54 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class centralSystem {
-  // static Process p ;
+   static Process p ;
+    static int index = 0;
+
     public static void main(String arg[]){
 
         // loop throhg folder get the path of file
 
 
-        File folder = new File("E:\\Khalid\\appTagFilePath Files\\appTagFilePathClass");
+        File folder = new File("E:\\Khalid\\appTagFilePathFiles\\appTagFilePathClass");
         File[] listOfFiles = folder.listFiles();
-        runJarFile("E:\\Khalid\\appTagFilePathFiles\\appTagFilePathClass\\AppTagFilePathClass_1.csv");
 
+        try {
+            p =  Runtime.getRuntime().exec("java --version ");
+            p.destroyForcibly();
+        } catch (IOException e) {
+            e.printStackTrace();
+            p.destroyForcibly();
+
+        }
+        while (index < listOfFiles.length)
+        {
+            File file = listOfFiles[index];
+            if (file.isFile()){
+                String path = listOfFiles[index].getPath();
+
+                if (!p.isAlive()){
+                        runJarFile(path);
+                        System.out.println(index+"-----"+path);
+
+                    index++;
+                }
+            }else {
+                index++;
+
+            }
+
+
+
+        }
 //        for (File file: listOfFiles) {
 //            if (file.isFile()) {
 //                if (!file.getName().equalsIgnoreCase("AppTagFilePathClass.csv")){
-//                    String path = file.getPath().toString();
 //
-//
+//                    while (p.onExit().isDone()){
+//                        String path = file.getPath().toString();
 //                        runJarFile(path);
-//                        System.out.println(path);
-//
-//
-//
+//                        System.out.println(p);
+//                    }
 //
 //                }
 //
@@ -37,23 +64,23 @@ public class centralSystem {
 
     }
     private static void runJarFile(String pathUrl) {
-        String jarURl = "E:\\Khalid\\GitHub\\AndroidCodeSmellDetector\\classes\\artifacts\\TestSmellDetector_jar\\TestSmellDetector.jar";
+       // String jarURl = "E:\\Khalid\\GitHub\\AndroidCodeSmellDetector\\src\\jarfile\\TestSmellDetector-0.1-jar-with-dependencies.jar";
+        String jarURl = "E:\\Khalid\\GitHub\\AndroidCodeSmellDetector\\src\\jarfile\\xmlMain-0.1-jar-with-dependencies.jar";
 
-        String command = "java -jar "+jarURl+" "+pathUrl+" ";
-        System.out.println(command);
+        String command = "java -Xms512m -Xmx10024m -jar "+jarURl+" "+pathUrl+" ";
             try {
-                Process p = Runtime.getRuntime().exec(command);
-                System.out.println(p);
-
+                 p = Runtime.getRuntime().exec(command);
                 BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                String line;
+                while ((is.readLine()) != null)
+                    System.out.println(index+"  waiting - "+p.pid());
 
-                while ((line = is.readLine()) != null)
-                    System.out.println(line);
+                // Get the jvm heap size.
+
 
             } catch (Exception e) {
-               // p.destroy();
                 e.printStackTrace();
+                p.destroy();
+
             }
     }
 }

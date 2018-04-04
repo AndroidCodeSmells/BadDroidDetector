@@ -79,10 +79,14 @@ public class Main {
             columnValues.add(file.getApp());
             columnValues.add(file.getTag());
             columnValues.add(file.getFilePath());
-
+                int counter = 0;
             for (AbstractSmell smell : tempFile.getCodeSmells()) {
                 try {
                     columnValues.add(String.valueOf(smell.getHasSmell()));
+                    counter++;
+                    if (counter == 50){
+                        new Exception();
+                    }
                 } catch (NullPointerException e) {
                     columnValues.add("");
                 }

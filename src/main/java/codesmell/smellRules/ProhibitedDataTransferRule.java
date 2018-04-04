@@ -97,14 +97,14 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
             }
 
             if (n.getType().asString().equalsIgnoreCase("NetworkInfo")) { // get the name of NetworkInfo type
-                System.out.println(n.getType().asString() + "->" + n.getNameAsString());
+               // System.out.println(n.getType().asString() + "->" + n.getNameAsString());
 
                 networkInfo = n;
 
             }
 
             if (methodName != null) {
-                System.out.println(n.getType().asString() + "->" + n.getNameAsString());
+              //  System.out.println(n.getType().asString() + "->" + n.getNameAsString());
 
             }
             super.visit(n, arg);
@@ -129,7 +129,7 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
                         BinaryExpr condition = (BinaryExpr) chNode;
 
 
-                        System.out.println(condition.getOperator());
+                      //  System.out.println(condition.getOperator());
 
                     }
 
