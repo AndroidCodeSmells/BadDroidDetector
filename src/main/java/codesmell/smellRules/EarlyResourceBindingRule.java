@@ -47,7 +47,7 @@ public class EarlyResourceBindingRule extends AbstractSmell{
         if (foundSmellMethod!=null){
             for (MethodChild m : methodChildList) {
 
-                if (m.has(foundSmellMethod) && m.getMethodName().equalsIgnoreCase("onCreate")){
+                if (m.has("requestLocationUpdates") && m.getMethodName().equalsIgnoreCase("onCreate")){
                     Method smell = new Method(foundSmellMethod);
                     smell.setHasSmell(true);
                     smellyElementList.add(smell);
