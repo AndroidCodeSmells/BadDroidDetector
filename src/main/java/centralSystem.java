@@ -72,7 +72,7 @@ public class centralSystem {
                  p = Runtime.getRuntime().exec(command);
                 BufferedReader is = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while ((is.readLine()) != null)
-                    System.out.println(index+"  waiting - "+p.pid());
+                    System.out.println(index+"  waiting - "+p);
 
                 // Get the jvm heap size.
 
