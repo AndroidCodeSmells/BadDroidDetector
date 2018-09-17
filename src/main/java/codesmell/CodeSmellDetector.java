@@ -36,7 +36,7 @@ public class CodeSmellDetector {
           codeSmellsJava.add(new BulkDataTransferOnSlowNetworkRule());
           codeSmellsJava.add(new DroppedDataRule());
           codeSmellsJava.add(new EarlyResourceBindingRule());
-        //  codeSmellsJava.add(new ProhibitedDataTransferRule());
+          codeSmellsJava.add(new ProhibitedDataTransferRule());
           codeSmellsJava.add(new TrackingHardwareIdRule());
           codeSmellsJava.add(new TerminateOpenInternetConnectionRule());
 

@@ -40,6 +40,10 @@ class  variableDeclaratorInitializer{
         return initializer.getNameAsString();
     }
 
+    @Override
+    public String toString() {
+        return initializer.getNameAsString();
+    }
 }
 public class BulkDataTransferOnSlowNetworkRule extends codesmell.AbstractSmell {
 
@@ -279,7 +283,7 @@ public class BulkDataTransferOnSlowNetworkRule extends codesmell.AbstractSmell {
 
     }
 
-    private void getChildCondition(IfStmt n) {
+    private void getChildCondition(IfStmt n){
 
 
         if (n.getCondition() instanceof BinaryExpr){
