@@ -6,11 +6,11 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import codesmell.*;
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import org.dom4j.DocumentException;
+
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -22,12 +22,15 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
 
     private boolean isClassUsingTheInternet;
     private VariableDeclarator networkInfo;
-    private String methodName;
+    private List<BinaryExpr> binaryExprList;
+    private  Boolean isnetConcativeychecked = false;
 
     public ProhibitedDataTransferRule() {
 
         isClassUsingTheInternet = false;
         smellyElementList = new ArrayList<>();
+        binaryExprList = new ArrayList<>();
+
     }
 
     /**
@@ -56,7 +59,50 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
         classVisitor.visit(compilationUnit, null);
 
         if (isClassUsingTheInternet) {
-            System.out.println("isClassUsingTheInternet class deal with internet");
+
+
+            for (BinaryExpr bi:binaryExprList
+                 ) {
+
+                if (!isnetConcativeychecked){
+                    if (bi.getLeft() instanceof NameExpr){
+
+                        if (bi.getRight() instanceof NullLiteralExpr){
+
+                            if (bi.getOperator().asString().equalsIgnoreCase("==")){
+                                isnetConcativeychecked = true;
+                            }
+                        }
+                    }
+                }
+
+
+            }
+          // check if the
+
+
+            if (!isnetConcativeychecked){
+
+                smellyElementList.add(new SmellyElement() {
+                    @Override
+                    public String getElementName() {
+                        return null;
+                    }
+
+                    @Override
+                    public boolean getHasSmell() {
+                        return true;
+                    }
+
+                    @Override
+                    public Map<String, String> getData() {
+                        return null;
+                    }
+                });
+            }
+            System.out.println(getHasSmell());
+
+
         }
     }
 
@@ -71,42 +117,72 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
 
     private class ClassVisitor extends VoidVisitorAdapter<Void> {
 
+        private  void extractACondition(BinaryExpr binaryExpr){
 
-        MethodChild methodChild;
-
-        @Override
-        public void visit(MethodCallExpr n, Void arg) {
-
-            if (n.getName().asString().equalsIgnoreCase("getBackgroundDataSetting")) {
-
-                methodName = n.getName().asString();
-            } else {
-                methodName = null;
+            if (!(binaryExpr.getLeft() instanceof BinaryExpr) && !(binaryExpr.getRight() instanceof BinaryExpr) ) {
+                binaryExprList.add(binaryExpr);
             }
-            super.visit(n, arg);
+
         }
+
+        private void getChildCondition(IfStmt n){
+
+
+            if (n.getCondition() instanceof BinaryExpr){
+
+                BinaryExpr binaryExpr = (BinaryExpr) n.getCondition();
+                if (binaryExpr.getLeft() instanceof BinaryExpr){
+                    extractACondition(binaryExpr.getLeft().asBinaryExpr());
+                }
+                if ((binaryExpr.getRight() instanceof BinaryExpr) && (binaryExpr.getLeft() instanceof BinaryExpr)){
+                }
+                if  (binaryExpr.getRight() instanceof BinaryExpr){
+                    extractACondition(binaryExpr.getRight().asBinaryExpr());
+                }
+
+                if (!(binaryExpr.getRight() instanceof BinaryExpr) && !(binaryExpr.getLeft() instanceof BinaryExpr)){
+                    extractACondition(binaryExpr);
+                }
+
+            }else{
+
+                if (!isnetConcativeychecked){
+                    if (n.getCondition() instanceof UnaryExpr){
+
+                        UnaryExpr unaryExpr = n.getCondition().asUnaryExpr();
+                        MethodCallExpr methodCallExpr = unaryExpr.getExpression().asMethodCallExpr();
+
+                        if (methodCallExpr.getName().asString().equalsIgnoreCase("getBackgroundDataSetting")){
+
+
+                            isClassUsingTheInternet = true;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
 
         @Override
         public void visit(VariableDeclarator n, Void arg) {
 
-            if (n.getType().asString().equalsIgnoreCase("HttpURLConnection")
-                    || n.getType().asString().equalsIgnoreCase("HttpClient")) {
+            if (n.getType().asString().equalsIgnoreCase("HttpURLConnection") || n.getType().asString().equalsIgnoreCase("HttpsURLConnection")
+                    || n.getType().asString().equalsIgnoreCase("HttpClient")){
 
                 isClassUsingTheInternet = true;
 
             }
 
-            if (n.getType().asString().equalsIgnoreCase("NetworkInfo")) { // get the name of NetworkInfo type
-               // System.out.println(n.getType().asString() + "->" + n.getNameAsString());
+            if (n.getType().asString().equalsIgnoreCase("NetworkInfo")){ // get the name of NetworkInfo type
 
                 networkInfo = n;
-
             }
 
-            if (methodName != null) {
-              //  System.out.println(n.getType().asString() + "->" + n.getNameAsString());
-
-            }
             super.visit(n, arg);
 
 
@@ -115,32 +191,10 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
 
         @Override
         public void visit(IfStmt n, Void arg) {
-
-
-            n.getCondition().getChildNodes().size();
-
-            if (n.getCondition() instanceof BinaryExpr) {
-
-                for (Node chNode : n.getCondition().getChildNodes()) {
-
-
-                    if (chNode instanceof BinaryExpr) {
-
-                        BinaryExpr condition = (BinaryExpr) chNode;
-
-
-                      //  System.out.println(condition.getOperator());
-
-                    }
-
-                }
-
-
-                if (networkInfo != null) {
-
-                }
                 super.visit(n, arg);
-            }
+
+
+                getChildCondition(n);
 
 
         }
