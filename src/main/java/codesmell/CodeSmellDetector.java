@@ -39,6 +39,7 @@ public class CodeSmellDetector {
           codeSmellsJava.add(new ProhibitedDataTransferRule());
           codeSmellsJava.add(new TrackingHardwareIdRule());
           codeSmellsJava.add(new TerminateOpenInternetConnectionRule());
+          codeSmellsJava.add(new UncachedViewsRule());
 
     }
 
