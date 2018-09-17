@@ -150,14 +150,17 @@ public class ProhibitedDataTransferRule extends AbstractSmell {
                     if (n.getCondition() instanceof UnaryExpr){
 
                         UnaryExpr unaryExpr = n.getCondition().asUnaryExpr();
-                        MethodCallExpr methodCallExpr = unaryExpr.getExpression().asMethodCallExpr();
+                        if (unaryExpr.getExpression() instanceof  MethodCallExpr){
+                            MethodCallExpr methodCallExpr = unaryExpr.getExpression().asMethodCallExpr();
 
-                        if (methodCallExpr.getName().asString().equalsIgnoreCase("getBackgroundDataSetting")){
+                            if (methodCallExpr.getName().asString().equalsIgnoreCase("getBackgroundDataSetting")){
 
 
-                            isClassUsingTheInternet = true;
+                                isClassUsingTheInternet = true;
 
+                            }
                         }
+
 
                     }
 

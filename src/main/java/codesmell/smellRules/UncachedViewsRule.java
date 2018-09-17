@@ -91,15 +91,17 @@ public class UncachedViewsRule extends AbstractSmell {
         public void visit(IfStmt n, Void arg) {
             super.visit(n, arg);
 
-            if (!ischeckingParameterView){
+            if (!ischeckingParameterView && parameterView != null){
 
 
                 if (n.getCondition() instanceof BinaryExpr){
 
                     BinaryExpr binaryExpr = n.getCondition().asBinaryExpr();
 
+                    if (binaryExpr.getLeft() instanceof NameExpr){
 
                         if (binaryExpr.getLeft().asNameExpr().getName().asString().equalsIgnoreCase(parameterView.getName().asString())) {
+
 
                             if (binaryExpr.getRight() instanceof NullLiteralExpr){
 
@@ -108,13 +110,27 @@ public class UncachedViewsRule extends AbstractSmell {
                                     ischeckingParameterView = true;
                                 }
                             }
-                        }else if (binaryExpr.getLeft().asNameExpr().getName().asString().equalsIgnoreCase(parameterView.getName().asString())) {
-                            if (binaryExpr.getLeft() instanceof NullLiteralExpr){
-                                if (binaryExpr.getOperator().asString().equalsIgnoreCase("==")){
-                                    ischeckingParameterView = true;
+                    }
 
+
+                        }else   {
+
+                        if (binaryExpr.getRight() instanceof NameExpr){
+
+                            if ((binaryExpr.getRight().asNameExpr().getName().asString().equalsIgnoreCase(parameterView.getName().asString()))){
+                                if (binaryExpr.getLeft() instanceof NullLiteralExpr){
+                                    if (binaryExpr.getOperator().asString().equalsIgnoreCase("==")){
+                                        ischeckingParameterView = true;
+
+                                    }
                                 }
+
                             }
+                        }
+
+
+
+
                         }
 
 

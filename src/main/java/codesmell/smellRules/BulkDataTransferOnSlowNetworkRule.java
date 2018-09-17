@@ -32,7 +32,11 @@ class  variableDeclaratorInitializer{
 
     String getInitializersScop(){
 
-        return initializer.getScope().get().asNameExpr().getName().asString();
+        if ( initializer.getScope().isPresent() && initializer.getScope().get().isNameExpr()){
+            return initializer.getScope().get().asNameExpr().getName().asString();
+
+        }
+        return "";
     }
 
     String getInitializersName(){
