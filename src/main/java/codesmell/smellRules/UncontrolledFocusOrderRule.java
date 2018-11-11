@@ -40,6 +40,7 @@ public class UncontrolledFocusOrderRule extends AbstractSmell{
 
         for (Element element :notDescriptive.getElementsWithAttribute()) {
             int counter = 0;
+
             if (element.attributeValue("nextFocusUp")==null){
                 counter ++;
             }
@@ -63,6 +64,7 @@ public class UncontrolledFocusOrderRule extends AbstractSmell{
 
             if (counter==5){
                 Method xmlelement = new Method(element.getName());
+                System.out.println(element.getName());
                xmlelement.setHasSmell(true);
                 smellyElementList.add(xmlelement);
             }

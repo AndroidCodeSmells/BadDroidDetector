@@ -31,14 +31,14 @@ public class CodeSmellDetector {
 
     private void initializeJavaSmells(){
           codeSmellsJava = new ArrayList<>();
-          codeSmellsJava.add(new OverdrawnPixelRule());
-          codeSmellsJava.add(new InterruptingFromBackgroundRule());
-          codeSmellsJava.add(new BulkDataTransferOnSlowNetworkRule());
-          codeSmellsJava.add(new DroppedDataRule());
-          codeSmellsJava.add(new EarlyResourceBindingRule());
-          codeSmellsJava.add(new ProhibitedDataTransferRule());
-          codeSmellsJava.add(new TrackingHardwareIdRule());
-          codeSmellsJava.add(new TerminateOpenInternetConnectionRule());
+//          codeSmellsJava.add(new OverdrawnPixelRule());
+//          codeSmellsJava.add(new InterruptingFromBackgroundRule());
+//          codeSmellsJava.add(new BulkDataTransferOnSlowNetworkRule());
+//          codeSmellsJava.add(new DroppedDataRule());
+//          codeSmellsJava.add(new EarlyResourceBindingRule());
+//          codeSmellsJava.add(new ProhibitedDataTransferRule());
+//          codeSmellsJava.add(new TrackingHardwareIdRule());
+//          codeSmellsJava.add(new TerminateOpenInternetConnectionRule());
           codeSmellsJava.add(new UncachedViewsRule());
 
     }

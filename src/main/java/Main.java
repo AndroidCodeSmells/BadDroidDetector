@@ -25,8 +25,8 @@ public class Main {
           Read the the folder list subfolder and build the File objects
          */
 
-        BufferedReader in = new BufferedReader(new FileReader("/Users/khalidalmalki/Desktop/thesis /AppTagClassPAth.csv"));
-        //BufferedReader in = new BufferedReader(new FileReader(args[0].toString()));
+       // BufferedReader in = new BufferedReader(new FileReader("E:\\Khalid\\appTagFilePathFiles\\appTagFilePathClass\\AppTagFilePathClass_0.csv"));
+        BufferedReader in = new BufferedReader(new FileReader(args[0].toString()));
 
 
         // the data structure will be app,tag, JavaFilePath

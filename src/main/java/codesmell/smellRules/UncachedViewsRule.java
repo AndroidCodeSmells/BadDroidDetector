@@ -15,6 +15,7 @@ import org.dom4j.DocumentException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class UncachedViewsRule extends AbstractSmell {
@@ -47,8 +48,23 @@ public class UncachedViewsRule extends AbstractSmell {
 
         System.out.println("ischeckingParameterView  "+ischeckingParameterView);
 
-        if (!ischeckingParameterView){
+        if (!ischeckingParameterView && parameterView != null){
+            smellyElementList.add(new SmellyElement() {
+                @Override
+                public String getElementName() {
+                    return "";
+                }
 
+                @Override
+                public boolean getHasSmell() {
+                    return true;
+                }
+
+                @Override
+                public Map<String, String> getData() {
+                    return null;
+                }
+            });
         }
 
 

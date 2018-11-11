@@ -25,7 +25,7 @@ public class MainLayoutSmells {
          */
 
         //BufferedReader in = new BufferedReader(new FileReader("G:\\Khalid\\output\\crashFile.txt"));
-        BufferedReader input = new BufferedReader(new FileReader("E:\\Khalid\\appTagFilePathFiles\\appTagFilePathxMLS\\AppTagFilePathXmls.csv"));
+        BufferedReader input = new BufferedReader(new FileReader("/Users/khalidalmalki/Desktop/smellLAteTest.csv"));
 
         String s;
 
